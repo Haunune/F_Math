@@ -1,14 +1,42 @@
+import { getDatabase, ref, child, get, set } from "firebase/database";
+import { database } from './firebase/firebase.js';
 import './App.css';
-import Home from './pages/Home';
-import Infomation from './pages/Infomation';
-import Study from './pages/Study';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { publicRoutes } from "./routes/index.js";
 
 function App() {
+
+  // Gọi kết nối firebase 
+  const dbRef = ref(database);
+  // đọc giá trị từ db
+  // get(child(dbRef, `accounts`)).then((snapshot) => {
+  //   if (snapshot.exists()) {
+  //     console.log(snapshot.val());
+  //   } else {
+  //     console.log("No data available");
+  //   }
+  // }).catch((error) => {
+  //   console.error(error);
+  // });
+
+  // ghi giá trị từ db
+  // set(child(dbRef, `accounts/2`), {
+  //   id: 2,
+  //   username: "student1",
+  //   password: "123456"
+  // });
+
   return (
-    <div className="App">
-      {/* Muốn hiển thị trang cần thiết kế thì thay đổi ở đây */}
-      <Infomation />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {publicRoutes.map((route,index) => {
+            const Page = route.component
+            return <Route key={index} path={route.path} element={<Page />} />
+          })}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -1,4 +1,5 @@
 import Button from "../../components/Button";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import logo from "../../images/F-Math.png";
 
@@ -19,6 +20,7 @@ function Infomation() {
                     <Button nav={false} text={"Chỉnh sửa thông tin"}/>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }

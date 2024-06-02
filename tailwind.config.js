@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         'primary': '#FFD7CD',
-        'navbar': '#FFF7F7'
+        'navbar': '#FFF7F7',
+        'input': '#E4CCFF'
       }
     },
   },

@@ -1,19 +1,24 @@
+import { NavLink } from 'react-router-dom';
 import logo from '../../images/logo.png'
 import Button from '../Button';
 
-function Header({text}) {
+function Header({ text }) {
     return (
         <div class="bg-navbar">
             <div class="flex flex-wrap justify-between items-center h-16">
                 <div class="pr-4 pl-4">
                     <div class="flex items-center">
-                        <img class="h-14 pr-2" src={logo} alt={"Logo"}/>
+                        <img class="h-14 pr-2" src={logo} alt={"Logo"} />
                         <h2 class="m-0 font-serif font-semibold text-4xl">F-Math</h2>
                     </div>
                 </div>
                 <div class="pr-4 pl-4 items-stretch">
-                    <Button nav={false} text="Đăng nhập"/>
-                    <Button nav={false} text="Đăng ký"/>
+                    <NavLink to={"/login"}>
+                        <Button nav={false} text="Đăng nhập" />
+                    </NavLink>
+                    <NavLink to={"/register"}>
+                        <Button nav={false} text="Đăng ký" />
+                    </NavLink>
                 </div>
             </div>
             {/* <nav class="navbar navbar-expand-sm navbar-dark">
