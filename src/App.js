@@ -3,6 +3,7 @@ import { database } from './firebase/firebase.js';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { publicRoutes } from "./routes/index.js";
+import "./i18n/i18n.js";
 
 function App() {
 

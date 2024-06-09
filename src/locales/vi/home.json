@@ -1,0 +1,16 @@
+{
+    "header": {
+        "login": "Đăng nhập",
+        "register": "Đăng ký"
+    },
+    "navbar": {
+        "try": "Học thử",
+        "study": "Học tập cùng F-Math",
+        "result": "Kết quả thi thử",
+        "support": "Hỗ trợ"
+    },
+    "result": {
+        "daily": "Kết quả luyện tập hàng ngày",
+        "week": "Kết quả luyện tập hàng tuần"
+    }
+}

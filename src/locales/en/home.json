@@ -1,0 +1,16 @@
+{
+    "header": {
+        "login": "Login",
+        "register": "Register"
+    },
+    "navbar": {
+        "try": "Try Learning",
+        "study": "Study with F-Math",
+        "result": "Exam Result",
+        "support": "Support"
+    },
+    "result": {
+        "daily": "Daily Practice Results",
+        "week": "Weekly Practice Results"
+    }
+}
