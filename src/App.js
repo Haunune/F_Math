@@ -1,40 +1,46 @@
-import { getDatabase, ref, child, get, set } from "firebase/database";
-import { database } from './firebase/firebase.js';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoutes } from "./routes/index.js";
+import { publicRoutes, privateRoutes } from "./routes/index.js";
 import "./i18n/i18n.js";
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/firebase.js';
 
 function App() {
+  const [authUser, setAuthUser] = useState(null);
 
-  // Gọi kết nối firebase 
-  const dbRef = ref(database);
-  // đọc giá trị từ db
-  // get(child(dbRef, `accounts`)).then((snapshot) => {
-  //   if (snapshot.exists()) {
-  //     console.log(snapshot.val());
-  //   } else {
-  //     console.log("No data available");
-  //   }
-  // }).catch((error) => {
-  //   console.error(error);
-  // });
+  // tạo hook để kiểm tra có user đang đăng nhập hay không
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
 
-  // ghi giá trị từ db
-  // set(child(dbRef, `accounts/2`), {
-  //   id: 2,
-  //   username: "student1",
-  //   password: "123456"
-  // });
+    return () => {
+      listen();
+    }
+  }, []);
 
   return (
     <Router>
       <div className="App">
         <Routes>
-          {publicRoutes.map((route,index) => {
-            const Page = route.component
-            return <Route key={index} path={route.path} element={<Page />} />
-          })}
+          {
+            authUser ? (
+              privateRoutes.map((route, index) => {
+                const Page = route.component
+                return <Route key={index} path={route.path} element={<Page />} />
+              })
+            ) : (
+              publicRoutes.map((route, index) => {
+                const Page = route.component
+                return <Route key={index} path={route.path} element={<Page />} />
+              })
+            )
+          }
         </Routes>
       </div>
     </Router>

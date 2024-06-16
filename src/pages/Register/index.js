@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../images/F-Math.png";
 import { CreateUserWithEmailAndPassword } from "../../firebase/auth";
 import { useState } from "react";
+import { database } from "../../firebase/firebase.js";
+import { child, ref, set } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -10,13 +13,27 @@ function Register() {
     const [name, setName] = useState('');
     const [account, setAccount] = useState('');
     const [phone, setPhone] = useState('');
+    const [type, setType] = useState('Student')
 
     const navigate = useNavigate();
 
-    const onSubmit = async (e) => {
-        e.preventDefault()
-        await CreateUserWithEmailAndPassword(email, password)
-        navigate('/login')
+    const onSubmit = async () => {
+        const userCreate = await CreateUserWithEmailAndPassword(email, password)
+        const user = userCreate.user;
+        const dbRef = ref(database);
+
+        await set(child(dbRef, `accounts/` + user.uid), {
+            id: "User" + user.uid,
+            email,
+            password,
+            name,
+            account,
+            phone,
+            type
+        }).catch((error) => {
+            alert("Error Creating Account:", error.message)
+        })
+        navigate('/')
     }
 
     return (
@@ -27,11 +44,11 @@ function Register() {
                 <InputForm text="Tài khoản" type="text" onChange={e => setAccount(e.target.value)} />
                 <InputForm text="Họ và tên" type="text" onChange={e => setName(e.target.value)} />
                 <InputForm text="Mật khẩu" type="password" onChange={e => setPassword(e.target.value)} />
-                <InputForm text="Email" type="text" onChange={e => setEmail(e.target.value)}/>
+                <InputForm text="Email" type="text" onChange={e => setEmail(e.target.value)} />
                 <InputForm text="Số điện thoại" type="text" onChange={e => setPhone(e.target.value)} />
                 <div className="flex self-start justify-center items-center mb-6 pl-11 text-sm">
                     <label className="font-bold text-gray-500  mr-4">Đối tượng</label>
-                    <select class="form-select rounded-lg bg-input text-gray-500 font-bold">
+                    <select class="form-select rounded-lg bg-input text-gray-500 font-bold" value={type} onChange={e => setType(e.target.value)}>
                         <option value="hocsinh">Student</option>
                         <option value="phuhuynh">Parent</option>
                     </select>

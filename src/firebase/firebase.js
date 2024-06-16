@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,5 +23,6 @@ const database = getDatabase(app);
 
 // cài đặt đăng nhập với google
 const auth = getAuth();
+const storage = getStorage();
 
-export {database, auth}
+export {database, auth, storage}

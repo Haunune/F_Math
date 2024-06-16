@@ -3,36 +3,55 @@ import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
 import * as Blockly from 'blockly/core';
 import * as libraryBlocks from 'blockly/blocks';
-import {javascriptGenerator} from 'blockly/javascript';
+import { javascriptGenerator } from 'blockly/javascript';
 import * as En from 'blockly/msg/en';
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { toolbox } from "../../blockly/toolbox";
-import { blocks } from "../../blockly/json";
 
 Blockly.setLocale(En);
-Blockly.common.defineBlocks(blocks);
-
 function TryStudy() {
-    const workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+    const blocklyDiv = useRef(null);
+    const workspaceRef = useRef(null)
 
-    javascriptGenerator.forBlock['my_custom_block'] = function(block, generator) {
-        const steps = block.getFieldValue('FIELD_NAME');
-        return `moveForward(${steps});\n`;
-      }
+    useEffect(() => {
+        if (blocklyDiv.current) {
 
-    const runCode = () => {
-        const code = javascriptGenerator.workspaceToCode(workspace);
+            // cleanup để tránh bị render trùng lặp
+            // if (workspaceRef.current) {
+            //     workspaceRef.current.dispose();
+            // }
+            workspaceRef.current = Blockly.inject(blocklyDiv.current, {
+                toolbox: toolbox,
+                toolboxPosition: "start",         
+            });
 
-        return code
-      };
 
+            // javascriptGenerator.forBlock['my_custom_block'] = function (block, generator) {
+            //     const steps = block.getFieldValue('FIELD_NAME');
+            //     return `moveForward(${steps});\n`;
+            // }
+
+            const runCode = () => {
+                const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
+                return code;
+            };
+        }
+
+        return () => {
+            if (workspaceRef.current) {
+                workspaceRef.current.dispose();
+                workspaceRef.current = null;
+            }
+        };
+
+    }, []);
 
     return (
         <div>
             <Header />
             <Navbar />
-            <div class="min-h-screen bg-navbar">
-                <div id="blocklyDiv"class="border-2 w-1/5 min-h-screen"></div>
+            <div className={"bg-navbar min-h-screen translate-x-0 translate-y-0"}>
+                <div ref={blocklyDiv} className={"absolute border-2 w-screen h-screen "}></div>
             </div>
             <Footer />
         </div>
