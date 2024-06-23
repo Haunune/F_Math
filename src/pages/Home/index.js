@@ -61,7 +61,7 @@ function Home() {
     return (
         <div>
             <Header onClick={onSignOut} user={authUser} />
-            <Navbar />
+            <Navbar user={authUser}/>
             <div className="min-h-screen bg-navbar">
                 <div className="flex min-h-80">
                     <div className="flex w-2/4 p-4 justify-center items-center">

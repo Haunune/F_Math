@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         'primary': '#FFD7CD',
         'navbar': '#FFF7F7',
-        'input': '#E4CCFF'
+        'input': '#FFFFFF'
       }
     },
   },

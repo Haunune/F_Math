@@ -1,0 +1,9 @@
+{
+    "TITLE": "ACCOUNT INFORMATION",
+    "account name": "Account name: ",
+    "name": "Full name: ",
+    "account type": "Account type: ",
+    "telephone" : "Telephone: ",
+    "add student":"Add Student",
+    "edit info":"Edit Infomation"
+}

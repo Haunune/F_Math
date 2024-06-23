@@ -1,0 +1,8 @@
+{
+    "signin": "Login",
+    "password": "Password",
+    "repassword":"Retype Password",
+    "changepassword":"Change Password",
+    "forgot": "Forgot Password?",
+    "signin Google": "Login with Google"
+}

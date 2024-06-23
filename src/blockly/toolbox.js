@@ -35,69 +35,7 @@ export const toolbox = {
             type: 'logic_ternary',
           },
         ],
-      },
-      {
-        kind: 'category',
-        name: 'Loops',
-        categorystyle: 'loop_category',
-        contents: [
-          {
-            kind: 'block',
-            type: 'controls_repeat_ext',
-            inputs: {
-              TIMES: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 10,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'controls_whileUntil',
-          },
-          {
-            kind: 'block',
-            type: 'controls_for',
-            inputs: {
-              FROM: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-              TO: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 10,
-                  },
-                },
-              },
-              BY: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'controls_forEach',
-          },
-          {
-            kind: 'block',
-            type: 'controls_flow_statements',
-          },
-        ],
+        scrollbars: false
       },
       {
         kind: 'category',
@@ -110,10 +48,12 @@ export const toolbox = {
             fields: {
               NUM: 123,
             },
+            collapse: true
           },
           {
             kind: 'block',
             type: 'math_arithmetic',
+            collapse: true,
             inputs: {
               A: {
                 shadow: {
@@ -136,6 +76,7 @@ export const toolbox = {
           {
             kind: 'block',
             type: 'math_single',
+            collapse: true,
             inputs: {
               NUM: {
                 shadow: {
@@ -164,10 +105,12 @@ export const toolbox = {
           {
             kind: 'block',
             type: 'math_constant',
+            collapse: true
           },
           {
             kind: 'block',
             type: 'math_number_property',
+            collapse: true,
             inputs: {
               NUMBER_TO_CHECK: {
                 shadow: {
@@ -182,6 +125,7 @@ export const toolbox = {
           {
             kind: 'block',
             type: 'math_round',
+            collapse: true,
             fields: {
               OP: 'ROUND',
             },
@@ -199,210 +143,13 @@ export const toolbox = {
           {
             kind: 'block',
             type: 'math_on_list',
+            collapse: true,
             fields: {
               OP: 'SUM',
             },
           },
-          {
-            kind: 'block',
-            type: 'math_modulo',
-            inputs: {
-              DIVIDEND: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 64,
-                  },
-                },
-              },
-              DIVISOR: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 10,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'math_constrain',
-            inputs: {
-              VALUE: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 50,
-                  },
-                },
-              },
-              LOW: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-              HIGH: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 100,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'math_random_int',
-            inputs: {
-              FROM: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-              TO: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 100,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'math_random_float',
-          },
-          {
-            kind: 'block',
-            type: 'math_atan2',
-            inputs: {
-              X: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-              Y: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 1,
-                  },
-                },
-              },
-            },
-          },
         ],
-      },
-      {
-        kind: 'category',
-        name: 'Lists',
-        categorystyle: 'list_category',
-        contents: [
-          {
-            kind: 'block',
-            type: 'lists_create_with',
-          },
-          {
-            kind: 'block',
-            type: 'lists_repeat',
-            inputs: {
-              NUM: {
-                shadow: {
-                  type: 'math_number',
-                  fields: {
-                    NUM: 5,
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_length',
-          },
-          {
-            kind: 'block',
-            type: 'lists_isEmpty',
-          },
-          {
-            kind: 'block',
-            type: 'lists_indexOf',
-            inputs: {
-              VALUE: {
-                block: {
-                  type: 'variables_get',
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_getIndex',
-            inputs: {
-              VALUE: {
-                block: {
-                  type: 'variables_get',
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_setIndex',
-            inputs: {
-              LIST: {
-                block: {
-                  type: 'variables_get',
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_getSublist',
-            inputs: {
-              LIST: {
-                block: {
-                  type: 'variables_get',
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_split',
-            inputs: {
-              DELIM: {
-                shadow: {
-                  type: 'text',
-                  fields: {
-                    TEXT: ',',
-                  },
-                },
-              },
-            },
-          },
-          {
-            kind: 'block',
-            type: 'lists_sort',
-          },
-          {
-            kind: 'block',
-            type: 'lists_reverse',
-          },
-        ],
+        scrollbars: false
       },
       {
         kind: 'category',

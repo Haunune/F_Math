@@ -1,18 +1,16 @@
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Navbar from "../../components/Navbar";
+import { useEffect, useRef, useState } from 'react';
+import { toolbox } from '../../blockly/toolbox';
 import * as Blockly from 'blockly/core';
-import * as libraryBlocks from 'blockly/blocks';
 import { javascriptGenerator } from 'blockly/javascript';
+import * as libraryBlocks from 'blockly/blocks';
 import * as En from 'blockly/msg/en';
-import { useEffect, useRef, useState } from "react";
-import { toolbox } from "../../blockly/toolbox";
 import ButtonLearn from "../../components/ButtonLearn";
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 Blockly.setLocale(En);
-function TryStudy() {
+
+function BlocklySpace({lesson}) {
     const blocklyDiv = useRef(null);
     const workspaceRef = useRef(null);
     const [workspace, setWorkspace] = useState(null);
@@ -21,7 +19,9 @@ function TryStudy() {
     useEffect(() => {
         if (blocklyDiv.current) {
             workspaceRef.current = Blockly.inject(blocklyDiv.current, {
-                toolbox: toolbox,
+                toolbox: toolbox,  
+                collapse: true,              
+                scrollbars: false
             });
             setWorkspace(workspaceRef.current);
         }
@@ -46,17 +46,16 @@ function TryStudy() {
             }
         }
 
-        if(result){
+        if (result) {
             notify();
             setResult(null);
         }
 
     };
 
-    const test = 24;
     const notify = () => {
         if (result === test) {
-            toast.success("Congratulations on the correct answer!",{
+            toast.success("Congratulations on the correct answer!", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -66,11 +65,11 @@ function TryStudy() {
                 progress: undefined,
                 theme: "light",
                 transition: Slide,
-                })
-        }else{
-            toast.error("Opps, the answer is wrong!",{
+            })
+        } else {
+            toast.error("Opps, the answer is wrong!", {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -78,25 +77,22 @@ function TryStudy() {
                 progress: undefined,
                 theme: "light",
                 transition: Slide,
-                })
+            })
         }
     }
 
     return (
         <div>
-            <Header />
-            <Navbar />
-            <div className={"bg-navbar min-h-screen translate-x-0 translate-y-0"}>
-                <div ref={blocklyDiv} className={"absolute border-2 w-screen h-screen "}></div>
-                <div className="absolute left-64 font-bold text-xl p-3"><span>Topic: </span>Create an addition or subtraction operation that results in 24 </div>
-                <div className="absolute right-0">
+            <div className="w-full h-16 p-3 text-xl font-semibold"><span className='font-bold text-2xl'>Topic: </span>{lesson.lecture_content}</div>
+            <div className={"w-full translate-x-0 translate-y-0 overflow-hidden"}>
+                <div ref={blocklyDiv} className={"w-full border-2 h-screen overflow-hidden"}></div>
+                <div className="absolute right-0 top-0">
                     <ButtonLearn onclick={runCode} />
-                    <ToastContainer/>
                 </div>
             </div>
-            <Footer />
+            <ToastContainer />
         </div>
     );
 }
 
-export default TryStudy;
+export default BlocklySpace;
