@@ -6,7 +6,7 @@ function Navbar({user}) {
     const {t} = useTranslation();
 
     return (
-        <div class="flex flex-wrap justify-between bg-primary h-[76px] items-center ">
+        <div className="flex flex-wrap justify-between bg-primary h-[76px] items-center ">
             <NavLink to={"/try"}>
                 <Button color={"green-500"} colorHover={"green-700"} nav={true} text={t('navbar.try')} />
             </NavLink>

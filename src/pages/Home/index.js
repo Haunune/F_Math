@@ -17,15 +17,17 @@ function Home() {
     const dbRef = ref(database);
     const navigate = useNavigate();
 
-    get(child(dbRef, `informations`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            setInformationsArray(Object.values(snapshot.val()));
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
+    useEffect(() => {
+        get(child(dbRef, `informations`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                setInformationsArray(Object.values(snapshot.val()));
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [dbRef])
 
     // tạo hook để kiểm tra có user đang đăng nhập hay không
     useEffect(() => {
@@ -61,7 +63,7 @@ function Home() {
     return (
         <div>
             <Header onClick={onSignOut} user={authUser} />
-            <Navbar user={authUser}/>
+            <Navbar user={authUser} />
             <div className="min-h-screen bg-navbar">
                 <div className="flex min-h-80">
                     <div className="flex w-2/4 p-4 justify-center items-center">
