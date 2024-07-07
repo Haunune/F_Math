@@ -23,6 +23,7 @@ function Admin() {
     const [isclickStudy, setIsclickStudy] = useState(false);
     const [isUserManager, setUserManager] = useState(false);
     const [isclickformStudy, setIsclickFormStudy] = useState(false);
+    const [isclickHelp, setIsClickHelp] = useState(false);
     const [title, setTitleLecture] = useState('');
     const [lecture_content, setContentLecture] = useState('');
     const [resultLecture, setResultLecture] = useState('');
@@ -44,6 +45,8 @@ function Admin() {
     const [countAdvanced, setCountAdvanced] = useState(2);
 
     const [users, setUsers] = useState([]);
+
+    const [help, setHelp] = useState([]);
 
     useEffect(() => {
         get(child(dbRef, `accounts`)).then((snapshot) => {
@@ -191,16 +194,29 @@ function Admin() {
         setLecturesArray1(lecturesArray.slice(0, 4));
         setLecturesArray2(lecturesArray.slice(4, 8));
     }, [lecturesArray])
+
+    /* Answer help */
+    useEffect(() => {
+        get(child(dbRef, `helps`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                setUsers(Object.values(snapshot.val()));
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, []);
     return (
         <>
             <Header onClick={onSignOut} user={location.state} />
             <div className="flex">
                 <div className="flex flex-col min-h-screen w-1/5 py-10 bg-orange-200">
                     {/* các components */}
-                    <button onClick={() => { setUserManager(!isUserManager); setIsclickStudy(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"> <FaUserCog className="mr-4 mt-1" /> Quản lý tài khoản user</button>
-                    <button onClick={() => { setIsclickStudy(!isclickStudy); setUserManager(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><FaBook className="mr-4 mt-1" />Quản lý học tập</button>
+                    <button onClick={() => { setUserManager(!isUserManager); setIsclickStudy(false); setIsClickHelp(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"> <FaUserCog className="mr-4 mt-1" /> Quản lý tài khoản user</button>
+                    <button onClick={() => { setIsclickStudy(!isclickStudy); setUserManager(false); setIsClickHelp(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><FaBook className="mr-4 mt-1" />Quản lý học tập</button>
                     <button className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><MdAccessTimeFilled className="mr-4 mt-1" />Thống kê truy cập</button>
-                    <button className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><TbHelpOctagonFilled className="mr-4 mt-1" />Trả lời help</button>
+                    <button onClick={() => { setIsClickHelp(!isclickHelp); setUserManager(false); setIsclickStudy(false)}} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><TbHelpOctagonFilled className="mr-4 mt-1" />Trả lời help</button>
                     <button className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><GrDocumentUpdate className="mr-4 mt-1" />Update tuyên dương</button>
                 </div>
                 {/* Handle User Manager */}
@@ -228,7 +244,7 @@ function Admin() {
                                             <td className="border border-slate-300 p-3">{user.name}</td>
                                             <td className="border border-slate-300 p-3">{user.phone}</td>
                                             <td className="border border-slate-300 p-3">{user.type}</td>
-                                            <td className="border border-slate-300 p-3"><button className="bg-red-400 p-3 rounded" onClick={() => deleteUser(user.id)}>Delete</button></td>                                            
+                                            <td className="border border-slate-300 p-3"><button className="bg-red-400 p-3 rounded" onClick={() => deleteUser(user.id)}>Delete</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

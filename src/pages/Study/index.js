@@ -36,11 +36,13 @@ function Study() {
     const Semester1 = () => {
         setLectures(lecturessArray.slice(0, 4));
         setCheckSemester(true);
+        navigate('/study/semester1');
     }
 
     const Semester2 = () => {
         setLectures(lecturessArray.slice(4, 8));
         setCheckSemester(true);
+        navigate('/study/semester2');
     }
 
     const selectLectures = (lectures) => {
@@ -52,7 +54,7 @@ function Study() {
 
     const onSignOut = () => {
         SignOut();
-        navigate('/')
+        navigate('/');
     }
 
     const selectLessons = (lesson) => {
@@ -63,7 +65,7 @@ function Study() {
         <div>
             <Header onClick={onSignOut} user={user} />
             <Navbar user={user} />
-            <div className=" flex bg-navbar min-h-screen p-4 justify-center">
+            <div className="bg-navbar min-h-screen p-4 justify-center">
                 <div className="text-center">
                     <p className=" font-semibold text-4xl font-medium mb-6">{t('Learning math is always fun')}</p>
                     <div className="flex justify-center">
@@ -73,12 +75,12 @@ function Study() {
                     </div>
                     {/* content */}
                     <div className="flex min-h-screen w-full mt-6 border rounded border-black">
-                        <div className="flex flex-col w-1/5 bg-lime-100 min-h-screen border-r-2 border-black">
+                        <div className="flex flex-col w-1/6 bg-lime-100 min-h-screen border-r-2 border-black">
                             <button onClick={Semester1} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">Semester 1</button>
                             <button onClick={Semester2} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">Semester 2</button>
                         </div>
 
-                        <div className="w-4/5 bg-lime-100 min-h-screen p-3 pr-0">
+                        <div className="w-5/6 bg-lime-100 min-h-screen p-3 pr-0">
                             {
                                 checkSemester ?
                                     lectures.map((lecture) => (

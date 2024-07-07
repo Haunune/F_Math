@@ -6,10 +6,12 @@ import InputForm from "../../components/InputForm";
 import Navbar from "../../components/Navbar";
 import { useState } from "react";
 import { SignOut } from "../../firebase/auth";
+import { child, ref, set } from "firebase/database";
+import { database } from "../../firebase/firebase";
 
 function Support() {
     const location = useLocation();
-    const [user, setUser] = useState(location.state);
+    //const [user, setUser] = useState(location.state);
     const navigate = useNavigate();
 
     const onSignOut = () => {
@@ -17,10 +19,23 @@ function Support() {
         navigate('/')
     }
 
+    // const onSendHelp = async () => {
+    //     const [email_user, setEmailUser] = useState('');
+    //     const [content_help, setContentHelp] = useState('');
+    //     const dbRef = ref(database);
+
+    //     await set(child(dbRef, `helps/`), {
+    //         id: "help",
+    //         email_user,
+    //         content_help
+    //     }).catch((error) => {
+    //         alert("Error Request help:", error.message)
+    //     })
+    // }
     return (
         <div>
-            <Header onClick={onSignOut} user={user}/>
-            <Navbar user={user} />
+            {/* <Header onClick={onSignOut} user={user} />
+            <Navbar user={user} /> */}
             {/* content */}
             <div className="flex bg-teal-100 min-h-screen p-6">
                 <div className="flex flex-col w-1/4 px-20">
@@ -52,7 +67,7 @@ function Support() {
                             <div className="flex gap-2w-full justify-between py-1.5">
                                 <button
                                     className="select-none rounded-md bg-violet-400 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                    type="button">
+                                    type="button" >
                                     Send your question
                                 </button>
                             </div>

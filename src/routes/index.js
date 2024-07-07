@@ -22,7 +22,10 @@ const privateRoutes = [
     {path: '/login', component: Login},
     {path: '/info', component: Infomation},
     {path: '/study', component: Study},
-    {path: '/study/:IdLectures/:IdLesson', component: ExerciseStudy},
+    {path: '/study/semester1', component: Study},
+    {path: '/study/semester1/:IdLectures/:IdLesson', component: ExerciseStudy},
+    {path: '/study/semester2', component: Study},
+    {path: '/study/semester2/:IdLectures/:IdLesson', component: ExerciseStudy},
     {path: '/result', component: ExamResult},
     {path: '/support', component: Support},
 ]
