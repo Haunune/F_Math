@@ -36,9 +36,11 @@ function Admin() {
 
     const [contentBs, setContentBasicEx] = useState('');
     const [resultBsEx, setResultBasicEx] = useState('');
+    const [titleBsEx, setTitleBasicEx] = useState('');
 
     const [contentAd, setContentAdvancedEx] = useState('');
     const [resultAdEx, setResultAdvancedEx] = useState('');
+    const [titleAdEx, setTitleAdvancedEx] = useState('');
 
     const [countStudy, setCountStudy] = useState(30);
     const [countBasic, setCountBasic] = useState(2);
@@ -300,6 +302,7 @@ function Admin() {
                             {
                                 isclickformBasicEx ?
                                     <div className="flex flex-col h-fit border-solid border-2 border-indigo-600 rounded-lg p-6">
+                                        <input value={titleBsEx} placeholder="Tiêu đề" className="rounded-lg my-4" onChange={(e) => setTitleBasicEx(e.target.value)} />
                                         <textarea value={contentBs} className="rounded-lg" placeholder="Nội dung bài tập cơ bản" onChange={(e) => setContentBasicEx(e.target.value)}></textarea>
                                         <input value={resultBsEx} placeholder="Kết quả" className="rounded-lg my-4" onChange={(e) => setResultBasicEx(e.target.value)} />
                                         <div className="flex justify-end">
@@ -312,6 +315,7 @@ function Admin() {
                             {
                                 isclickformAdvancedEx ?
                                     <div className="flex flex-col h-fit border-solid border-2 border-indigo-600 rounded-lg p-6">
+                                        <input value={titleAdEx} placeholder="Tiêu đề" className="rounded-lg my-4" onChange={(e) => setTitleAdvancedEx(e.target.value)} />
                                         <textarea value={contentAd} className="rounded-lg" placeholder="Nội dung bài tập nâng cao" onChange={(e) => setContentAdvancedEx(e.target.value)}></textarea>
                                         <input value={resultAdEx} placeholder="Kết quả" className="rounded-lg my-4" onChange={(e) => setResultAdvancedEx(e.target.value)} />
                                         <div className="flex justify-end">

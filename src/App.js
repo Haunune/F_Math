@@ -18,14 +18,14 @@ function App() {
         setAuthUser(null);
       }
     });
-
     return () => {
       listen();
     }
   }, []);
 
   return (
-    <Router>
+    //  basename="/F_Math"
+    <Router basename="/F_Math">
       <div className="App">
         <Routes>
           {
@@ -41,6 +41,7 @@ function App() {
               })
             )
           }
+          <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>
     </Router>

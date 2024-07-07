@@ -3,7 +3,7 @@ import logo from '../../images/logo.png'
 import Button from '../Button';
 import { useTranslation } from 'react-i18next';
 import { MdLanguage } from "react-icons/md";
-import { FaUserCircle, FaUserCog } from "react-icons/fa";
+import { FaHistory, FaUserCircle, FaUserCog } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from 'react';
 
@@ -44,6 +44,7 @@ function Header({ user, onClick }) {
                                 <div className='absolute top-10 right-6 bg-primary w-fit rounded'>
                                     <div className='absolute top-[-15px] right-1 border-x-transparent border-t-transparent border-b-primary border-8 border-solid'></div>
                                     <NavLink className={"flex items-center p-4"} state={user} to={"/info"}><span className='mr-2'><FaUserCog /></span>Account Settings</NavLink>
+                                    <NavLink className={"flex items-center p-4"} state={user} to={"/history"}><span className='mr-2'><FaHistory /></span>Homework History</NavLink>
                                     <button className='flex items-center p-4' onClick={onClick}><span className='mr-2'><IoIosLogOut /></span>Sign Out</button>
                                 </div>
                             )}

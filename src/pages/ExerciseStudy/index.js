@@ -1,4 +1,4 @@
-import { child, get, ref } from "firebase/database";
+import { child, get, ref, set } from "firebase/database";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
@@ -219,6 +219,8 @@ function ExerciseStudy() {
 
             setCompletedLectures([...completedLectures, selected]);
 
+            saveCompletedLecture(user.id, lesson.id, lesson.title)
+
         } else {
             toast.error("Opps, the answer is wrong!", {
                 position: "top-right",
@@ -380,6 +382,18 @@ function ExerciseStudy() {
             }
         }
     }, [completedLectures, lecturessArray, handleClick]);
+
+    // update bài học đã hoàn thành cho người chơi
+    const saveCompletedLecture = async (user, lectureId, title) => {
+        const completeAt = new Date().toISOString();
+
+        await set(child(dbRef, `accounts/${user.replace("User","")}/completedLectures/` + lectureId), {
+            title,
+            completeAt,
+        }).catch((error) => {
+            alert("Error Creating Data:", error.message)
+        })
+    }
 
     return (
         <div>

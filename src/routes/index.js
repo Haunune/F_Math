@@ -8,6 +8,7 @@ import TryStudy from '../pages/TryStudy';
 import Admin from '../pages/Admin';
 import Support from '../pages/Support';
 import ExerciseStudy from '../pages/ExerciseStudy';
+import History from '../pages/History';
 
 const publicRoutes = [
     {path: '/', component: Home},
@@ -26,8 +27,11 @@ const privateRoutes = [
     {path: '/study/semester1/:IdLectures/:IdLesson', component: ExerciseStudy},
     {path: '/study/semester2', component: Study},
     {path: '/study/semester2/:IdLectures/:IdLesson', component: ExerciseStudy},
+    {path: '/study/basic-exercise', component: Study},
+    {path: '/study/advanced-exercise', component: Study},
     {path: '/result', component: ExamResult},
     {path: '/support', component: Support},
+    {path: '/history', component: History},
 ]
 
 export { publicRoutes, privateRoutes }
