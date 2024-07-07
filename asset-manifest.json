@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/F_Math/static/css/main.6dc21b05.css",
-    "main.js": "/F_Math/static/js/main.89247e99.js",
-    "static/js/511.887362ae.chunk.js": "/F_Math/static/js/511.887362ae.chunk.js",
-    "static/media/slide1.jpg": "/F_Math/static/media/slide1.adf20195dd5f120c4265.jpg",
-    "static/media/slide2.jpg": "/F_Math/static/media/slide2.3c396649a812956cce67.jpg",
-    "static/media/slide3.jpg": "/F_Math/static/media/slide3.17cc9744fd076825da39.jpg",
+    "main.css": "/F_Math/static/css/main.24c52887.css",
+    "main.js": "/F_Math/static/js/main.cf93e32d.js",
+    "static/js/511.1afff780.chunk.js": "/F_Math/static/js/511.1afff780.chunk.js",
+    "static/media/slide1.jpg": "/F_Math/static/media/slide1.1d1d690e66e171ff3662.jpg",
+    "static/media/slide2.jpg": "/F_Math/static/media/slide2.2873b08ef9cfead16fc0.jpg",
+    "static/media/slide3.jpg": "/F_Math/static/media/slide3.a9e22cf87ad7388b9286.jpg",
     "static/media/qc1.jpg": "/F_Math/static/media/qc1.71e894e1f34e33ca87e6.jpg",
     "static/media/qc2.jpg": "/F_Math/static/media/qc2.c1895fa8c7e35d4f0f1c.jpg",
     "static/media/qc3.jpg": "/F_Math/static/media/qc3.ced6b987b803b065e11d.jpg",
     "static/media/logo.png": "/F_Math/static/media/logo.c1d80b09ce89e2d763b6.png",
     "static/media/F-Math.png": "/F_Math/static/media/F-Math.d4ec21f01afd49ee925c.png",
     "index.html": "/F_Math/index.html",
-    "main.6dc21b05.css.map": "/F_Math/static/css/main.6dc21b05.css.map",
-    "main.89247e99.js.map": "/F_Math/static/js/main.89247e99.js.map",
-    "511.887362ae.chunk.js.map": "/F_Math/static/js/511.887362ae.chunk.js.map"
+    "main.24c52887.css.map": "/F_Math/static/css/main.24c52887.css.map",
+    "main.cf93e32d.js.map": "/F_Math/static/js/main.cf93e32d.js.map",
+    "511.1afff780.chunk.js.map": "/F_Math/static/js/511.1afff780.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6dc21b05.css",
-    "static/js/main.89247e99.js"
+    "static/css/main.24c52887.css",
+    "static/js/main.cf93e32d.js"
   ]
 }
