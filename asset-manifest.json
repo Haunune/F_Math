@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/F_Math/static/css/main.b37e87fd.css",
-    "main.js": "/F_Math/static/js/main.79c55721.js",
+    "main.js": "/F_Math/static/js/main.e8704235.js",
     "static/js/511.1afff780.chunk.js": "/F_Math/static/js/511.1afff780.chunk.js",
     "static/media/slide1.jpg": "/F_Math/static/media/slide1.1d1d690e66e171ff3662.jpg",
     "static/media/slide2.jpg": "/F_Math/static/media/slide2.2873b08ef9cfead16fc0.jpg",
@@ -13,11 +13,11 @@
     "static/media/F-Math.png": "/F_Math/static/media/F-Math.d4ec21f01afd49ee925c.png",
     "index.html": "/F_Math/index.html",
     "main.b37e87fd.css.map": "/F_Math/static/css/main.b37e87fd.css.map",
-    "main.79c55721.js.map": "/F_Math/static/js/main.79c55721.js.map",
+    "main.e8704235.js.map": "/F_Math/static/js/main.e8704235.js.map",
     "511.1afff780.chunk.js.map": "/F_Math/static/js/511.1afff780.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b37e87fd.css",
-    "static/js/main.79c55721.js"
+    "static/js/main.e8704235.js"
   ]
 }
