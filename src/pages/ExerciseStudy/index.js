@@ -14,6 +14,8 @@ import { javascriptGenerator } from 'blockly/javascript';
 import * as libraryBlocks from 'blockly/blocks';
 import * as En from 'blockly/msg/en';
 import { Slide, ToastContainer, toast } from 'react-toastify';
+import BasicEx from "../BasicEx";
+import AdvancedEx from "../AdvancedEx";
 
 
 Blockly.setLocale(En);
@@ -37,6 +39,10 @@ function ExerciseStudy() {
     const [isInstruct, setIsInstruct] = useState(false);
     const [selected, setSelected] = useState(null);
     const [numbers, setNumbers] = useState(null);
+
+    const [Ex, setEx] = useState(true);
+    const [basicEx, setBasicEx] = useState(false);
+    const [advancedEx, setAdvancedEx] = useState(false);
 
 
     const navigate = useNavigate();
@@ -109,7 +115,6 @@ function ExerciseStudy() {
             };
 
             const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
-
             try {
                 const evalResult = eval(code);
                 setResult(evalResult);
@@ -121,10 +126,8 @@ function ExerciseStudy() {
             // trường hợp cần theo hướng dẫn
             if (isInstruct) {
                 const codeArray = code.split(" ");
-
                 // kiểm tra định dạng
-                if ((codeArray[1] === '+' || codeArray[1] === '-') && codeArray[3] === '==') {
-                    console.log(codeArray)
+                if ((codeArray[1] === '+' || codeArray[1] === '-' || codeArray[1] === '*' || codeArray[1] === '/') && codeArray[3] === '==') {
                     const number = numbers.split(" ");
                     const num1 = codeArray[0].replace(/[()]/g, '');
 
@@ -133,7 +136,6 @@ function ExerciseStudy() {
                             try {
                                 const evalResult = eval(code);
                                 setResult(evalResult);
-                                console.log("RESULT HERE: ", result)
                             } catch (error) {
                                 console.error('Error executing Blockly generated code:', error);
                                 setResult('Error executing Blockly generated code');
@@ -177,6 +179,54 @@ function ExerciseStudy() {
                             }
                         }
                     }
+                    if (codeArray[1] === '*') {
+                        if ((num1 === number[0] && codeArray[2] === number[1]) || (num1 === number[1] && codeArray[2] === number[0])) {
+                            try {
+                                const evalResult = eval(code);
+                                setResult(evalResult);
+                            } catch (error) {
+                                console.error('Error executing Blockly generated code:', error);
+                                setResult('Error executing Blockly generated code');
+                            }
+                        } else {
+                            toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                                transition: Slide,
+                            })
+                        }
+                    } else {
+                        if (codeArray[1] === '/') {
+                            if ((num1 === number[0] && codeArray[2] === number[1])) {
+                                try {
+                                    const evalResult = eval(code);
+
+                                    setResult(evalResult);
+                                } catch (error) {
+                                    console.error('Error executing Blockly generated code:', error);
+                                    setResult('Error executing Blockly generated code');
+                                }
+                            } else {
+                                toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "light",
+                                    transition: Slide,
+                                })
+                            }
+                        }
+                    }
                 } else {
                     toast.warning("You need to enter the correct format according to the instructions!", {
                         position: "top-right",
@@ -191,9 +241,8 @@ function ExerciseStudy() {
                     })
                 }
             }
-            
+
             if (result !== null && result !== undefined) {
-                console.log("final result ", result)
                 notify();
                 setResult(null);
             }
@@ -201,10 +250,7 @@ function ExerciseStudy() {
     };
 
     const notify = () => {
-        console.log("result ", result)
-        console.log("check result ", (result === lesson.resultLecture))
-
-        if (result === lesson.resultLecture) {
+        if (result == lesson.resultLecture) {
             toast.success("Congratulations on the correct answer!", {
                 position: "top-right",
                 autoClose: 2000,
@@ -313,7 +359,7 @@ function ExerciseStudy() {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1\n To pass this test you need to follow the following structure\n%2",
+                        "message0": "%1\n To pass this test you need to follow the following structure\n%2",
                         "args0": [
                             {
                                 "type": "field_image",
@@ -342,7 +388,7 @@ function ExerciseStudy() {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1",
+                        "message0": "%1",
                         "args0": [
                             {
                                 "type": "field_image",
@@ -383,16 +429,65 @@ function ExerciseStudy() {
         }
     }, [completedLectures, lecturessArray, handleClick]);
 
-    // update bài học đã hoàn thành cho người chơi
+    // update bài học đã hoàn thành cho user
     const saveCompletedLecture = async (user, lectureId, title) => {
         const completeAt = new Date().toISOString();
+        const score = 10;
 
-        await set(child(dbRef, `accounts/${user.replace("User","")}/completedLectures/` + lectureId), {
+        await set(child(dbRef, `accounts/${user.replace("User", "")}/completedLectures/` + lectureId), {
             title,
             completeAt,
+            score,
         }).catch((error) => {
             alert("Error Creating Data:", error.message)
         })
+    }
+
+    // cập nhật bài học
+    useEffect(() => {
+        const fetchCompletedLectures = async () => {
+            const snapshot = await get(child(dbRef, `accounts/${user.id.replace("User", "")}/completedLectures`));
+            if (snapshot.exists()) {
+                const completed = Object.keys(snapshot.val());
+                setCompletedLectures(completed);
+
+                const lastCompletedLecture = completed[completed.length - 1];
+                const lastCompletedIndex = lecturessArray.findIndex(lecture => lecture.id === lastCompletedLecture);
+                if (lastCompletedIndex !== -1 && lastCompletedIndex < lecturessArray.length - 1) {
+                    handleClick(lecturessArray[lastCompletedIndex]);
+                } else {
+                    handleClick(lecturessArray[0]);
+                }
+            } else {
+                handleClick(lecturessArray[0]);
+            }
+        };
+
+        if (user && lecturessArray.length > 0) {
+            fetchCompletedLectures();
+        }
+    }, [user, lecturessArray]);
+
+    const BasicExercise = () => {
+        setEx(false);
+        setBasicEx(!basicEx);
+        setAdvancedEx(false);
+        navigate('/study/basic-exercise', { state: user });
+    }
+
+    const AdvancedExercise = () => {
+        setEx(false);
+        setAdvancedEx(!advancedEx);
+        setBasicEx(false);
+        navigate('/study/advanced-exercise', { state: user });
+    }
+
+
+    const Exercise = () => {
+        setEx(!Ex);
+        setBasicEx(false);
+        setAdvancedEx(false);
+        navigate('/study');
     }
 
     return (
@@ -403,36 +498,40 @@ function ExerciseStudy() {
                 <div className="text-center">
                     <p className=" font-semibold text-4xl font-medium mb-6">{t('Learning math is always fun')}</p>
                     <div className="flex justify-center">
-                        <div className="bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ">{t('Learn by topic')}</div>
-                        <button className="bg-sky-300 hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl">{t('Basic exercises')}</button>
-                        <button className="bg-sky-300 hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl">{t('Advanced exercises')}</button>
+                        <div onClick={() => Exercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${Ex ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Learn by topic')}</div>
+                        <button onClick={() => BasicExercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${basicEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Basic exercises')}</button>
+                        <button onClick={() => AdvancedExercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${advancedEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Advanced exercises')}</button>
                     </div>
                     {/* content */}
-                    <div className="flex min-h-screen w-full mt-6 border rounded border-black">
-                        <div className="flex flex-col w-2/12 bg-lime-100 min-h-screen border-r-2 border-black">
-                            <button onClick={() => navigate('/study')} className="p-6 text-base text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">Semester 1</button>
-                            {/* Các bài học con */}
-                            {
-                                lecturessArray.map((lecture, index) => (
-                                    <button
-                                        onClick={() => (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? null : handleClick(lecture)}
-                                        key={lecture.id} className={`p-3 text-sm text-indigo-700 font-bold focus:bg-amber-500 border ${selected === lecture.id ? 'bg-amber-500' : 'bg-lime-100'} ${(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50 ' : ''}`}
-                                        disabled={(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id))}
-                                    >
-                                        {lecture.title}
-                                    </button>
-                                ))
-                            }
-                        </div>
+                    {
+                        Ex ?
+                            <div className="flex min-h-screen w-full mt-6 border rounded border-black">
+                                <div className="flex flex-col w-2/12 bg-lime-100 min-h-screen border-r-2 border-black">
+                                    <button onClick={() => navigate('/study')} className="p-6 text-base text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">{(IdLectures.charAt(IdLectures.length - 1) <= 4) ? "Semester 1" : "Semester 2"}</button>
+                                    {/* Các bài học con */}
+                                    {
+                                        lecturessArray.map((lecture, index) => (
+                                            <button
+                                                onClick={() => (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? null : handleClick(lecture)}
+                                                key={lecture.id} className={`p-3 text-sm text-indigo-700 font-bold focus:bg-amber-500 border ${selected === lecture.id ? 'bg-amber-500' : 'bg-lime-100'} ${(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50 ' : ''}`}
+                                                disabled={(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id))}
+                                            >
+                                                {lecture.title}
+                                            </button>
+                                        ))
+                                    }
+                                </div>
 
-                        <div className="w-10/12 bg-lime-100 min-h-screen">
-                            <div ref={blocklyDiv} className={"border-2 h-screen"}></div>
-                            <div className="absolute right-0 top-72 m-4">
-                                <ButtonLearn onclick={runCode} />
+                                <div className="w-10/12 bg-lime-100 min-h-screen">
+                                    <div ref={blocklyDiv} className={"border-2 h-screen"}></div>
+                                    <div className="absolute right-0 top-72 m-4">
+                                        <ButtonLearn onclick={runCode} />
+                                    </div>
+                                    <ToastContainer />
+                                </div>
                             </div>
-                            <ToastContainer />
-                        </div>
-                    </div>
+                            : basicEx ? <BasicEx /> : advancedEx ? <AdvancedEx /> : ""
+                    }
 
                 </div>
             </div>

@@ -1,13 +1,15 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./routes/index.js";
 import "./i18n/i18n.js";
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/firebase.js';
+import ProtectRoute from './components/ProtectRoute/index.js';
 
 function App() {
   const [authUser, setAuthUser] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   // tạo hook để kiểm tra có user đang đăng nhập hay không
   useEffect(() => {
@@ -25,7 +27,7 @@ function App() {
 
   return (
     //  basename="/F_Math"
-    <Router basename="/F_Math">
+    <Router>
       <div className="App">
         <Routes>
           {
@@ -41,7 +43,7 @@ function App() {
               })
             )
           }
-          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="*" element={<ProtectRoute authUser={authUser}/>} />
         </Routes>
       </div>
     </Router>

@@ -36,23 +36,24 @@ function Study() {
         }).catch((error) => {
             console.error(error);
         });
-    }, [])
+    }, [dbRef])
+
 
     const Semester1 = () => {
         setLectures(lecturessArray.slice(0, 4));
         setCheckSemester(true);
-        navigate('/study/semester1');
+        navigate('/study/semester1', { state: user });
     }
 
     const Semester2 = () => {
         setLectures(lecturessArray.slice(4, 8));
         setCheckSemester(true);
-        navigate('/study/semester2');
+        navigate('/study/semester2', { state: user });
     }
 
     const selectLectures = (lectures) => {
         setIdLectures(lectures.id)
-        setLessons(lectures.lessons)
+        setLessons(Object.values(lectures.lessons))
         setCheckSemester(false)
         setCheckLesson(true)
     }
@@ -70,14 +71,14 @@ function Study() {
         setEx(false);
         setBasicEx(!basicEx);
         setAdvancedEx(false);
-        navigate('/study/basic-exercise');
+        navigate('/study/basic-exercise', { state: user });
     }
 
     const AdvancedExercise = () => {
         setEx(false);
         setAdvancedEx(!advancedEx);
         setBasicEx(false);
-        navigate('/study/advanced-exercise');
+        navigate('/study/advanced-exercise', { state: user });
     }
 
 
@@ -85,7 +86,7 @@ function Study() {
         setEx(!Ex);
         setBasicEx(false);
         setAdvancedEx(false);
-        navigate('/study');
+        navigate('/study', {state: user});
     }
 
     return (
@@ -129,7 +130,7 @@ function Study() {
                                     }
                                 </div>
                             </div>
-                            : basicEx ? <BasicEx /> : advancedEx ? <AdvancedEx /> : ""
+                            : basicEx ? <BasicEx userInfo={user} /> : advancedEx ? <AdvancedEx userInfo={user} /> : ""
                     }
 
                 </div>

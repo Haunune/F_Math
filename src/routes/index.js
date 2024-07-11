@@ -20,6 +20,7 @@ const publicRoutes = [
 const privateRoutes = [
     {path: '/admin', component: Admin},
     {path: '/', component: Home},
+    {path: '/try', component: TryStudy},
     {path: '/login', component: Login},
     {path: '/info', component: Infomation},
     {path: '/study', component: Study},

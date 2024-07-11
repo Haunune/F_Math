@@ -7,6 +7,21 @@ export const toolbox = {
     },
     {
       kind: 'block',
+      type: 'logic_boolean',
+      fields: {
+        BOOL: true,
+      },
+      collapse: true
+    },
+    {
+      kind: 'block',
+      type: 'text',
+      fields: {
+          TEXT: ""
+        }
+    },
+    {
+      kind: 'block',
       type: 'math_number',
       fields: {
         NUM: 123,
