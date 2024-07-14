@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/F_Math/static/css/main.6ee221cd.css",
-    "main.js": "/F_Math/static/js/main.7ebf2313.js",
+    "main.css": "/F_Math/static/css/main.4d4f9f53.css",
+    "main.js": "/F_Math/static/js/main.1ea2ea8d.js",
     "static/js/511.1afff780.chunk.js": "/F_Math/static/js/511.1afff780.chunk.js",
     "static/media/slide1.jpg": "/F_Math/static/media/slide1.1d1d690e66e171ff3662.jpg",
     "static/media/slide2.jpg": "/F_Math/static/media/slide2.2873b08ef9cfead16fc0.jpg",
@@ -12,12 +12,12 @@
     "static/media/logo.png": "/F_Math/static/media/logo.c1d80b09ce89e2d763b6.png",
     "static/media/F-Math.png": "/F_Math/static/media/F-Math.d4ec21f01afd49ee925c.png",
     "index.html": "/F_Math/index.html",
-    "main.6ee221cd.css.map": "/F_Math/static/css/main.6ee221cd.css.map",
-    "main.7ebf2313.js.map": "/F_Math/static/js/main.7ebf2313.js.map",
+    "main.4d4f9f53.css.map": "/F_Math/static/css/main.4d4f9f53.css.map",
+    "main.1ea2ea8d.js.map": "/F_Math/static/js/main.1ea2ea8d.js.map",
     "511.1afff780.chunk.js.map": "/F_Math/static/js/511.1afff780.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6ee221cd.css",
-    "static/js/main.7ebf2313.js"
+    "static/css/main.4d4f9f53.css",
+    "static/js/main.1ea2ea8d.js"
   ]
 }
