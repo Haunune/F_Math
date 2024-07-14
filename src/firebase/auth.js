@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updatePassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "./firebase";
+import { Slide, toast } from "react-toastify";
 
 
 export const CreateUserWithEmailAndPassword = async (email, password) => {
@@ -7,7 +8,23 @@ export const CreateUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const SignInWithEmailAndPassword = (email, password) => {
-    return signInWithEmailAndPassword(auth, email,password);
+    try {
+        const userCredential = signInWithEmailAndPassword(auth, email, password);
+        return userCredential;
+    } catch (error) {
+        toast.error(error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        })
+        return error;
+    }
 };
 
 export const SignInWithGoogle = async () => {

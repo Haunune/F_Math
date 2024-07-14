@@ -18,6 +18,7 @@ import BasicEx from "../BasicEx";
 import AdvancedEx from "../AdvancedEx";
 
 
+
 Blockly.setLocale(En);
 
 
@@ -28,12 +29,14 @@ function ExerciseStudy() {
     const workspaceRef = useRef(null);
     const blocklyDiv = useRef(null);
     const [workspace, setWorkspace] = useState(null);
+    const [showConfetti, setShowConfetti] = useState(false);
 
     const [lecturessArray, setLecturesArray] = useState([]);
+
     const [lesson, setLessons] = useState(location.state.lesson);
 
     const [IdLectures, setIdLectures] = useState(location.state.IdLectures);
-    const [user, setUser] = useState(location.state.user);
+    const [user, setUser] = useState(null);
     const [result, setResult] = useState(null);
     const [completedLectures, setCompletedLectures] = useState([]);
     const [isInstruct, setIsInstruct] = useState(false);
@@ -46,6 +49,15 @@ function ExerciseStudy() {
 
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        } else {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     useEffect(() => {
         get(child(dbRef, `lectures/${IdLectures.charAt(IdLectures.length - 1)}/lessons`)).then((snapshot) => {
@@ -61,6 +73,7 @@ function ExerciseStudy() {
 
     const onSignOut = () => {
         SignOut();
+        localStorage.removeItem('user');
         navigate('/')
     }
 
@@ -242,12 +255,15 @@ function ExerciseStudy() {
                 }
             }
 
-            if (result !== null && result !== undefined) {
-                notify();
-                setResult(null);
-            }
+
         }
     };
+    useEffect(() => {
+        if (result !== null && result !== undefined) {
+            notify();
+            setResult(null);
+        }
+    }, [result]);
 
     const notify = () => {
         if (result == lesson.resultLecture) {
@@ -265,7 +281,11 @@ function ExerciseStudy() {
 
             setCompletedLectures([...completedLectures, selected]);
 
-            saveCompletedLecture(user.id, lesson.id, lesson.title)
+            saveCompletedLecture(user.id, lesson.id, lesson.title);
+
+            if (lesson && IdLectures) {
+                window.history.replaceState(null, '', `/study/semester1/${IdLectures}/${lesson.id}`, { replace: true });
+            }
 
         } else {
             toast.error("Opps, the answer is wrong!", {
@@ -291,8 +311,7 @@ function ExerciseStudy() {
     const handleClick = useCallback((lecture) => {
         clearWorkspace();
         setLessons(lecture);
-        setSelected(lecture.id)
-
+        setSelected(lecture.id);
 
         if (lecture.imgUrl) {
             // tạo block
@@ -412,7 +431,7 @@ function ExerciseStudy() {
 
             newBlock.moveBy(10, imgBlock.getHeightWidth().height + 20);
         }
-    }, [workspaceRef])
+    }, [workspaceRef, navigate])
 
     useEffect(() => {
         if (lecturessArray.length > 0) {
@@ -421,10 +440,27 @@ function ExerciseStudy() {
     }, [lecturessArray, handleClick])
 
     useEffect(() => {
-        if (completedLectures.length > 0) {
+        if (completedLectures.length > 0 && lecturessArray.length > 0) {
             const currentIndex = lecturessArray.findIndex(lecture => lecture.id === selected);
+            const lastLecture = lecturessArray[lecturessArray.length - 1];
+
             if (currentIndex < lecturessArray.length - 1) {
                 handleClick(lecturessArray[currentIndex + 1]);
+            }
+
+            if (selected === lastLecture.id && completedLectures.includes(lastLecture.id)) {
+                toast.success("Congratulations on completing the chapter. Please select the next chapter to learn a new lesson.", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Slide,
+                })
+                
             }
         }
     }, [completedLectures, lecturessArray, handleClick]);
@@ -472,14 +508,16 @@ function ExerciseStudy() {
         setEx(false);
         setBasicEx(!basicEx);
         setAdvancedEx(false);
-        navigate('/study/basic-exercise', { state: user });
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/study/basic-exercise');
     }
 
     const AdvancedExercise = () => {
         setEx(false);
         setAdvancedEx(!advancedEx);
         setBasicEx(false);
-        navigate('/study/advanced-exercise', { state: user });
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/study/advanced-exercise');
     }
 
 
@@ -487,6 +525,11 @@ function ExerciseStudy() {
         setEx(!Ex);
         setBasicEx(false);
         setAdvancedEx(false);
+        navigate('/study');
+    }
+
+    const handleSemester = () => {
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/study');
     }
 
@@ -506,8 +549,8 @@ function ExerciseStudy() {
                     {
                         Ex ?
                             <div className="flex min-h-screen w-full mt-6 border rounded border-black">
-                                <div className="flex flex-col w-2/12 bg-lime-100 min-h-screen border-r-2 border-black">
-                                    <button onClick={() => navigate('/study')} className="p-6 text-base text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">{(IdLectures.charAt(IdLectures.length - 1) <= 4) ? "Semester 1" : "Semester 2"}</button>
+                                <div className="flex flex-col w-2/12 bg-lime-100 max-h-screen border-r-2 border-black overflow-y-auto">
+                                    <button onClick={() => handleSemester()} className="p-6 text-base text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">{(IdLectures.charAt(IdLectures.length - 1) <= 4) ? "Semester 1" : "Semester 2"}</button>
                                     {/* Các bài học con */}
                                     {
                                         lecturessArray.map((lecture, index) => (

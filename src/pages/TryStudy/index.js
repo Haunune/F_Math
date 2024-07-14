@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { child, get, ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import { javascriptGenerator } from "blockly/javascript";
+import { useNavigate } from "react-router-dom";
+import { SignOut } from "../../firebase/auth";
 
 Blockly.setLocale(En);
 
@@ -25,8 +27,17 @@ function TryStudy() {
     const [selected, setSelected] = useState(null);
     const [tryLectures, setTryLectures] = useState([]);
     const [topic, setTopic] = useState({});
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
     const [completedLectures, setCompletedLectures] = useState([]);
 
+
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+    }, [navigate]);
 
     useEffect(() => {
         get(child(dbRef, `try_lectures`)).then((snapshot) => {
@@ -39,6 +50,13 @@ function TryStudy() {
             console.error(error);
         });
     }, [dbRef])
+
+
+    const onSignOut = () => {
+        SignOut();
+        localStorage.removeItem('user');
+        navigate('/')
+    }
 
     useEffect(() => {
         if (blocklyDiv.current || !workspaceRef.current) {
@@ -269,8 +287,8 @@ function TryStudy() {
 
     return (
         <div>
-            <Header />
-            <Navbar />
+            <Header onClick={onSignOut} user={user}/>
+            <Navbar user={user}/>
             <div className={"bg-navbar min-h-screen translate-x-0 translate-y-0"}>
                 <div className="w-full h-20 bg-navbar">
                     <ToastContainer />

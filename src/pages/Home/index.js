@@ -9,13 +9,17 @@ import { useEffect, useState } from "react";
 import { SignOut } from "../../firebase/auth";
 import { child, get, ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Home() {
     const [authUser, setAuthUser] = useState(null);
     const [informationsArray, setInformationsArray] = useState([]);
     const dbRef = ref(database);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.setItem('user', JSON.stringify(authUser));
+    }, [authUser]);
 
     useEffect(() => {
         get(child(dbRef, `informations`)).then((snapshot) => {
@@ -57,8 +61,21 @@ function Home() {
         }
     }, [dbRef, navigate]);
 
+    useEffect(() => {
+        const reloadFlag = localStorage.getItem('reloadFlag');
+
+        if (authUser === null && !reloadFlag) {
+            localStorage.setItem('reloadFlag', 'true');
+            window.location.reload();
+        } else if (authUser !== null) {
+            localStorage.removeItem('reloadFlag');
+        }
+    }, [authUser]);
+
     const onSignOut = () => {
+        localStorage.removeItem('user');
         SignOut();
+        navigate("/");
     }
     return (
         <div>

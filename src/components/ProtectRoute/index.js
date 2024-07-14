@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function ProtectRoute({authUser}) {
-    const navigate = useNavigate();
+function ProtectRoute({ authUser }) {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(!authUser){
-        navigate('/login', {replace: true});
-    }
+    const timer = setTimeout(() => {
+      if (!authUser) {
+        navigate('/login', { replace: true });
+      }
+    }, 1500);
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return null;

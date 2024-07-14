@@ -170,13 +170,15 @@ function BasicEx({userInfo}) {
                     })
                 }
             }
-            
-            if (result !== null && result !== undefined) {
-                notify();
-                setResult(null);
-            }
         }
     };
+
+    useEffect(() => {
+        if (result !== null && result !== undefined) {
+            notify();
+            setResult(null);
+        }
+    }, [result]);
 
     const notify = () => {
         if (result == topic.resultBsEx) {
@@ -360,7 +362,7 @@ function BasicEx({userInfo}) {
     // update bài học đã hoàn thành cho user
     const saveCompletedLecture = async (user, lectureId, title) => {
         const completeAt = new Date().toISOString();
-        const score = 10;
+        const score = 15;
 console.log(user)
         await set(child(dbRef, `accounts/${user.replace("User","")}/completedLectures` + `/basic/${lectureId}`), {
             title,
@@ -400,12 +402,12 @@ console.log(user)
         <div className="w-full h-20 bg-lime-100  mt-10 min-h-screen translate-x-0 translate-y-0">
             <ToastContainer />
             <div className="flex">
-                <div className="min-h-screen w-56 h-20 bg-lime-100 font-semibold mt-2">
+                <div className="min-h-screen overflow-y-auto w-56 h-20 bg-lime-100 font-semibold mt-2">
                     {
                         lecturessArray.map((lecture, index) => (
                             <button onClick={() => (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? null : handleClick(lecture)}
                                 key={lecture.id}
-                                className={`h-32 w-full p-3 mb-3 rounded shadow focus:bg-green-500 ${selected === lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${ (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
+                                className={`h-14 w-full mb-3 rounded shadow focus:bg-green-500 ${selected === lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${ (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
                                 disabled={ (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id))}
                             >
                                 {lecture.title}

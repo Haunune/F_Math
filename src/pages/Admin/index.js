@@ -48,7 +48,7 @@ function Admin() {
 
     const [users, setUsers] = useState([]);
 
-    const [help, setHelp] = useState([]);
+    const [helps, setHelp] = useState([]);
 
     useEffect(() => {
         get(child(dbRef, `accounts`)).then((snapshot) => {
@@ -165,6 +165,7 @@ function Admin() {
         setIsclickFormAdvancedEx(true)
     }
     const onSignOut = () => {
+        localStorage.removeItem('user');
         SignOut();
     }
 
@@ -199,16 +200,15 @@ function Admin() {
 
     /* Answer help */
     useEffect(() => {
-        get(child(dbRef, `helps`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                setUsers(Object.values(snapshot.val()));
-            } else {
-                console.log("No data available");
+        const userHelps = [];
+        users.forEach(user => {
+            if(user.helps){
+                userHelps.push({ id: user.id, help: user.helps });
             }
-        }).catch((error) => {
-            console.error(error);
         });
-    }, []);
+        setHelp(userHelps)
+    }, [users]);
+
     return (
         <>
             <Header onClick={onSignOut} user={location.state} />
@@ -325,6 +325,38 @@ function Admin() {
                             }
 
                         </div> : ""
+                }
+
+                {/* Handle Answer Help */}
+                {
+                    isclickHelp ?
+                    <div className="flex jutify-center w-screen h-fit p-10">
+                        <table className="table-auto border-collapse border border-slate-400">
+                            <thead className="bg-blue-300">
+                                <tr>
+                                    <th className="border border-slate-300 p-3">ID</th>
+                                    <th className="border border-slate-300 p-3">Title</th>
+                                    <th className="border border-slate-300 p-3">Content</th>
+                                    <th className="border border-slate-300 p-3">Time</th>
+                                    <th className="border border-slate-300 p-3">Answer</th>
+                                    <th className="border border-slate-300 p-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {helps.map(help => (
+                                    <tr key={help.id}>
+                                        <td className="border border-slate-300 p-3">{help.id}</td>
+                                        <td className="border border-slate-300 p-3">{help.title_help}</td>
+                                        <td className="border border-slate-300 p-3">{help.content_help}</td>
+                                        <td className="border border-slate-300 p-3">{help.answer}</td>
+                                        <td className="border border-slate-300 p-3">{help.time}</td>
+                                        <td className="border border-slate-300 p-3"><button className="bg-red-400 p-3 rounded" onClick={() => deleteUser(help.id)}>Delete</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    : ""
                 }
 
             </div>

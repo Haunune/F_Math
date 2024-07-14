@@ -19,12 +19,25 @@ function Study() {
     const [checkLesson, setCheckLesson] = useState(false);
     const dbRef = ref(database);
     const location = useLocation();
-    const [user, setUser] = useState(location.state);
+    const [user, setUser] = useState(null);
     const [IdLectures, setIdLectures] = useState(null);
     const navigate = useNavigate();
     const [Ex, setEx] = useState(true);
     const [basicEx, setBasicEx] = useState(false);
     const [advancedEx, setAdvancedEx] = useState(false);
+
+    useEffect(() => {
+        if (location.state) {
+            setUser(location.state);
+        } else {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                setUser(JSON.parse(userData));
+            } else {
+                navigate('/login');
+            }
+        }
+    }, [navigate, location.state]);
 
     useEffect(() => {
         get(child(dbRef, `lectures`)).then((snapshot) => {
@@ -42,13 +55,15 @@ function Study() {
     const Semester1 = () => {
         setLectures(lecturessArray.slice(0, 4));
         setCheckSemester(true);
-        navigate('/study/semester1', { state: user });
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/study/semester1');
     }
 
     const Semester2 = () => {
         setLectures(lecturessArray.slice(4, 8));
         setCheckSemester(true);
-        navigate('/study/semester2', { state: user });
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/study/semester2');
     }
 
     const selectLectures = (lectures) => {
@@ -59,7 +74,9 @@ function Study() {
     }
 
     const onSignOut = () => {
+        const noUser = true;
         SignOut();
+        localStorage.removeItem('user');
         navigate('/');
     }
 
@@ -86,7 +103,7 @@ function Study() {
         setEx(!Ex);
         setBasicEx(false);
         setAdvancedEx(false);
-        navigate('/study', {state: user});
+        navigate('/study', { state: user });
     }
 
     return (

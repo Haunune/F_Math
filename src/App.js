@@ -9,7 +9,6 @@ import ProtectRoute from './components/ProtectRoute/index.js';
 
 function App() {
   const [authUser, setAuthUser] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
 
   // tạo hook để kiểm tra có user đang đăng nhập hay không
   useEffect(() => {
@@ -17,8 +16,14 @@ function App() {
       if (user) {
         setAuthUser(user);
       } else {
-        setAuthUser(null);
+        const userData = localStorage.getItem('user');
+        if (userData) {
+          setAuthUser(JSON.parse(userData));
+        } else {
+          setAuthUser(null);
+        }
       }
+
     });
     return () => {
       listen();
@@ -27,7 +32,7 @@ function App() {
 
   return (
     //  basename="/F_Math"
-    <Router basename="/F_Math">
+    <Router>
       <div className="App">
         <Routes>
           {
@@ -43,7 +48,7 @@ function App() {
               })
             )
           }
-          <Route path="*" element={<ProtectRoute authUser={authUser}/>} />
+          <Route path="*" element={<ProtectRoute authUser={authUser} />} />
         </Routes>
       </div>
     </Router>
