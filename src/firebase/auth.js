@@ -4,7 +4,22 @@ import { Slide, toast } from "react-toastify";
 
 
 export const CreateUserWithEmailAndPassword = async (email, password) => {
-    return createUserWithEmailAndPassword(auth, email,password);
+    try {
+        return createUserWithEmailAndPassword(auth, email,password);
+    } catch (error) {
+        toast.error(error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        })
+        return error;
+    }
 };
 
 export const SignInWithEmailAndPassword = (email, password) => {

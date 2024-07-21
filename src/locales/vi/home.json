@@ -10,7 +10,7 @@
         "support": "Hỗ trợ"
     },
     "result": {
-        "daily": "Kết quả luyện tập hàng ngày",
-        "week": "Kết quả luyện tập hàng tuần"
+        "week": "Kết quả luyện tập hàng tuần",
+        "month": "Kết quả luyện tập hàng tháng"
     }
 }

@@ -2,7 +2,7 @@ import InputForm from "../../components/InputForm";
 import logo from "../../images/F-Math.png";
 import { ResetPassword, SignInWithEmailAndPassword, SignInWithGoogle } from "../../firebase/auth";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useTranslation } from "react-i18next";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -55,8 +55,8 @@ function Login() {
     const onGoogleSignIn = (e) => {
         e.preventDefault()
         try {
-            SignInWithGoogle()
-            navigate('/')
+            SignInWithGoogle();
+            navigate('/');
         } catch (error) {
             toast.error("Login failed, please check your account or password again", {
                 position: "top-right",
@@ -81,16 +81,18 @@ function Login() {
 
     return (
         <div className="flex bg-primary min-h-screen">
-            <img className="w-6/12 max-h-screen" src={logo} alt="Logo" />
+            <NavLink className="w-6/12 min-h-screen"  to={'/'}>
+                <img className="min-h-screen"  src={logo} alt="Logo" />
+            </NavLink>
 
             <div className="flex flex-col w-6/12 items-center py-40 px-36">
                 <p className="text-5xl font-bold mb-8">{t('signin')}</p>
                 <ToastContainer />
-                <form onSubmit={onSubmit}>
+                <form className="flex flex-col" onSubmit={onSubmit}>
 
                 <InputForm text="Email" type="email" onChange={e => setEmail(e.target.value)} />
                 <InputForm text={t('password')} type="password" onChange={e => setPassword(e.target.value)} />
-                <p onClick={() => setForgot(true)} className="flex self-end mr-12 mt-2 mb-6 underline underline-offset-1">{t('forgot')}</p>
+                <p onClick={() => setForgot(true)} className="flex flex-end self-end mr-2 mt-2 mb-6 underline underline-offset-1">{t('forgot')}</p>
                 <button onClick={onSubmit} className="bg-green-500 hover:bg-green-700 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl">{t('signin')}</button>
                 </form>
                 <button onClick={onGoogleSignIn} className="flex items-center bg-white hover:bg-slate-200 mt-4 mr-6 ml-6 p-3 px-20 rounded text-slate-600 font-semibold text-xl">

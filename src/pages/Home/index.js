@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { useEffect, useState } from "react";
 import { SignOut } from "../../firebase/auth";
-import { child, get, ref } from "firebase/database";
+import { child, get, ref, set } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -15,6 +15,9 @@ function Home() {
     const [authUser, setAuthUser] = useState(null);
     const [informationsArray, setInformationsArray] = useState([]);
     const dbRef = ref(database);
+    const [userArray, setUserArray] = useState([]);
+    const [scoreArray, setScoreArray] = useState([]);
+    const [rankArray, setRankArray] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,6 +40,18 @@ function Home() {
     useEffect(() => {
         const listen = onAuthStateChanged(auth, (user) => {
             if (user) {
+                if (user.photoURL) {
+                    set(child(dbRef, `accounts/` + user.uid), {
+                        id: "User" + user.uid,
+                        email: user.email,
+                        password: '',
+                        name: user.displayName,
+                        account: 'anonymous users',
+                        phone: '',
+                        type: 'Student',
+                    });
+                }
+                console.log(user)
                 get(child(dbRef, `accounts/${user.uid}`)).then((snapshot) => {
                     if (snapshot.exists()) {
                         const userDetails = snapshot.val();
@@ -61,6 +76,7 @@ function Home() {
         }
     }, [dbRef, navigate]);
 
+
     useEffect(() => {
         const reloadFlag = localStorage.getItem('reloadFlag');
 
@@ -77,22 +93,111 @@ function Home() {
         SignOut();
         navigate("/");
     }
+
+    useEffect(() => {
+        get(child(dbRef, `accounts`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                setUserArray(Object.values(snapshot.val()));
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [dbRef]);
+
+
+    // lấy thông tin điểm
+    useEffect(() => {
+        const userScores = [];
+        userArray.forEach(user => {
+            if (user.completedLectures) {
+                userScores.push({ id: user.id, scoreList: user.completedLectures });
+            }
+        });
+        setScoreArray(userScores)
+    }, [userArray]);
+
+    useEffect(() => {
+        const fetchData = async (list, totalLectureScore, totalBasicScore, totalAdvancedScore, totalScore) => {
+            if (isNaN(totalLectureScore) || isNaN(totalBasicScore) || isNaN(totalAdvancedScore)) {
+                totalLectureScore = 0;
+                totalBasicScore = 0;
+                totalAdvancedScore = 0;
+            }
+            try {
+                await set(child(dbRef, `accounts/${list.id.replace("User", "")}/totalScore`), {
+                    totalLectureScore,
+                    totalBasicScore,
+                    totalAdvancedScore,
+                    totalScore
+                });
+            } catch (error) {
+                alert("Lỗi tạo dữ liệu:", error);
+            }
+        };
+
+        scoreArray.forEach(list => {
+            let totalBasicScore = 0;
+            let totalAdvancedScore = 0;
+
+            // điểm lecture
+            const listScore = Object.entries(list.scoreList)
+                .filter(([key, value]) => key !== 'basic' && key !== 'advanced')
+                .map(([key, value]) => value);
+
+            const totalLectureScore = listScore.reduce((total, scores) => total + Number(scores.score), 0);
+
+            // điểm basic
+            if (list.scoreList.basic) {
+                const listBasicScore = Object.values(list.scoreList.basic);
+                totalBasicScore = listBasicScore.reduce((total, scores) => total + Number(scores.score), 0);
+            }
+
+            // điểm advanced
+            if (list.scoreList.advanced) {
+                const listAdvancedScore = Object.values(list.scoreList.advanced);
+                totalAdvancedScore = listAdvancedScore.reduce((total, scores) => total + Number(scores.score), 0);
+            }
+
+            const totalScore = totalLectureScore + totalBasicScore + totalAdvancedScore;
+
+            fetchData(list, totalLectureScore, totalBasicScore, totalAdvancedScore, totalScore);
+        });
+    }, [dbRef, scoreArray]);
+
+    useEffect(() => {
+        const rankList = [];
+        userArray.forEach(user => {
+            if (user.totalScore === undefined) {
+                rankList.push({ account: user.account, fullname: user.name, score: 0 })
+            } else {
+                rankList.push({ account: user.account, fullname: user.name, score: user.totalScore.totalScore })
+            }
+        })
+        setRankArray(rankList.sort((a, b) => b.score - a.score));
+    }, [userArray]);
+
+    const [top] = rankArray;
+
     return (
         <div>
             <Header onClick={onSignOut} user={authUser} />
             <Navbar user={authUser} />
             <div className="min-h-screen bg-navbar">
-                <div className="flex min-h-80">
-                    <div className="flex w-2/4 p-4 justify-center items-center">
-                        <div className="w-2/5 ml-14">
-                            <img src={images.logo} alt="Logo" />
+                <div className="flex min-h-80 ">
+                    {top &&
+                        <div className="relative flex w-2/4 p-4 justify-center items-center">
+                            <div className="w-2/5 mx-5 mt-5">
+                                <img className=" border shadow-xl rounded-full bg-red-600 shadow-orange-300" src={images.usertop} />
+                            </div>
+                            <p className="absolute text-2xl w-full top-9 left-28 font-serif font-bold text-sky-600">Honor the student with the highest score</p>
+                            <div className="w-3/5 pl-10 text-xl leading-loose">
+                                <div className="pt-3 font-semibold text-4xl font-mono text-red-400">Name: {top.fullname}</div>
+                                <div className="pt-5 font-semibold text-3xl font-mono text-red-400">Score: {top.score.totalScore}</div>
+                            </div>
                         </div>
-                        <div className="w-3/5 pl-20 text-xl leading-loose">
-                            <div>tintt</div>
-                            <div>Trần Trung Tín</div>
-                            <div>Điểm số: <span>9</span></div>
-                        </div>
-                    </div>
+                    }
                     <div className="w-2/4">
                         <Carousel />
                     </div>

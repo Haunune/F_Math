@@ -29,7 +29,6 @@ function ExerciseStudy() {
     const workspaceRef = useRef(null);
     const blocklyDiv = useRef(null);
     const [workspace, setWorkspace] = useState(null);
-    const [showConfetti, setShowConfetti] = useState(false);
 
     const [lecturessArray, setLecturesArray] = useState([]);
 
@@ -40,6 +39,7 @@ function ExerciseStudy() {
     const [result, setResult] = useState(null);
     const [completedLectures, setCompletedLectures] = useState([]);
     const [isInstruct, setIsInstruct] = useState(false);
+    const [isFirst, setIsFisrt] = useState(true);
     const [selected, setSelected] = useState(null);
     const [numbers, setNumbers] = useState(null);
 
@@ -128,13 +128,7 @@ function ExerciseStudy() {
             };
 
             const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
-            try {
-                const evalResult = eval(code);
-                setResult(evalResult);
-            } catch (error) {
-                console.error('Error executing Blockly generated code:', error);
-                setResult('Error executing Blockly generated code');
-            }
+
 
             // trường hợp cần theo hướng dẫn
             if (isInstruct) {
@@ -171,7 +165,6 @@ function ExerciseStudy() {
                             if ((num1 === number[0] && codeArray[2] === number[1])) {
                                 try {
                                     const evalResult = eval(code);
-
                                     setResult(evalResult);
                                 } catch (error) {
                                     console.error('Error executing Blockly generated code:', error);
@@ -191,35 +184,10 @@ function ExerciseStudy() {
                                 })
                             }
                         }
-                    }
-                    if (codeArray[1] === '*') {
-                        if ((num1 === number[0] && codeArray[2] === number[1]) || (num1 === number[1] && codeArray[2] === number[0])) {
-                            try {
-                                const evalResult = eval(code);
-                                setResult(evalResult);
-                            } catch (error) {
-                                console.error('Error executing Blockly generated code:', error);
-                                setResult('Error executing Blockly generated code');
-                            }
-                        } else {
-                            toast.warning("You need to enter the correct number according to the requirements of the question!", {
-                                position: "top-right",
-                                autoClose: 5000,
-                                hideProgressBar: false,
-                                closeOnClick: true,
-                                pauseOnHover: true,
-                                draggable: true,
-                                progress: undefined,
-                                theme: "light",
-                                transition: Slide,
-                            })
-                        }
-                    } else {
-                        if (codeArray[1] === '/') {
-                            if ((num1 === number[0] && codeArray[2] === number[1])) {
+                        if (codeArray[1] === '*') {
+                            if ((num1 === number[0] && codeArray[2] === number[1]) || (num1 === number[1] && codeArray[2] === number[0])) {
                                 try {
                                     const evalResult = eval(code);
-
                                     setResult(evalResult);
                                 } catch (error) {
                                     console.error('Error executing Blockly generated code:', error);
@@ -238,8 +206,34 @@ function ExerciseStudy() {
                                     transition: Slide,
                                 })
                             }
+                        } else {
+                            if (codeArray[1] === '/') {
+                                if ((num1 === number[0] && codeArray[2] === number[1])) {
+                                    try {
+                                        const evalResult = eval(code);
+
+                                        setResult(evalResult);
+                                    } catch (error) {
+                                        console.error('Error executing Blockly generated code:', error);
+                                        setResult('Error executing Blockly generated code');
+                                    }
+                                } else {
+                                    toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                        position: "top-right",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "light",
+                                        transition: Slide,
+                                    })
+                                }
+                            }
                         }
                     }
+                    setIsInstruct(false);
                 } else {
                     toast.warning("You need to enter the correct format according to the instructions!", {
                         position: "top-right",
@@ -253,9 +247,17 @@ function ExerciseStudy() {
                         transition: Slide,
                     })
                 }
+                setIsInstruct(false);
+            } else {
+                try {
+                    const evalResult = eval(code);
+                    setResult(evalResult);
+                    setIsInstruct(false);
+                } catch (error) {
+                    console.error('Error executing Blockly generated code:', error);
+                    setResult('Error executing Blockly generated code');
+                }
             }
-
-
         }
     };
     useEffect(() => {
@@ -264,6 +266,7 @@ function ExerciseStudy() {
             setResult(null);
         }
     }, [result]);
+
 
     const notify = () => {
         if (result == lesson.resultLecture) {
@@ -434,18 +437,17 @@ function ExerciseStudy() {
     }, [workspaceRef, navigate])
 
     useEffect(() => {
-        if (lecturessArray.length > 0) {
-            handleClick(lecturessArray[0]);
-        }
-    }, [lecturessArray, handleClick])
-
-    useEffect(() => {
-        if (completedLectures.length > 0 && lecturessArray.length > 0) {
+        if (completedLectures.length >= 0 && lecturessArray.length > 0) {
             const currentIndex = lecturessArray.findIndex(lecture => lecture.id === selected);
             const lastLecture = lecturessArray[lecturessArray.length - 1];
-
-            if (currentIndex < lecturessArray.length - 1) {
-                handleClick(lecturessArray[currentIndex + 1]);
+            
+            if (completedLectures.includes(selected) && currentIndex < lecturessArray.length - 1) {
+                if(isFirst){
+                    handleClick(lecturessArray[currentIndex]);
+                    setIsFisrt(false);
+                }else{
+                    handleClick(lecturessArray[currentIndex + 1]);
+                }
             }
 
             if (selected === lastLecture.id && completedLectures.includes(lastLecture.id)) {
@@ -460,7 +462,7 @@ function ExerciseStudy() {
                     theme: "light",
                     transition: Slide,
                 })
-                
+
             }
         }
     }, [completedLectures, lecturessArray, handleClick]);
@@ -490,7 +492,7 @@ function ExerciseStudy() {
                 const lastCompletedLecture = completed[completed.length - 1];
                 const lastCompletedIndex = lecturessArray.findIndex(lecture => lecture.id === lastCompletedLecture);
                 if (lastCompletedIndex !== -1 && lastCompletedIndex < lecturessArray.length - 1) {
-                    handleClick(lecturessArray[lastCompletedIndex]);
+                    handleClick(lecturessArray[lastCompletedIndex + 1]);
                 } else {
                     handleClick(lecturessArray[0]);
                 }
@@ -525,6 +527,7 @@ function ExerciseStudy() {
         setEx(!Ex);
         setBasicEx(false);
         setAdvancedEx(false);
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/study');
     }
 

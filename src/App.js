@@ -25,14 +25,14 @@ function App() {
       }
 
     });
+
     return () => {
       listen();
     }
   }, []);
-
   return (
     //  basename="/F_Math"
-    <Router basename="/F_Math">
+    <Router>
       <div className="App">
         <Routes>
           {

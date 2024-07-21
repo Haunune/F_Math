@@ -10,7 +10,7 @@
         "support": "Support"
     },
     "result": {
-        "daily": "Daily Practice Results",
-        "week": "Weekly Practice Results"
+        "week": "Weekly Practice Results",
+        "month": "Monthly Practice Results"
     }
 }
