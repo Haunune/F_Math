@@ -15,7 +15,15 @@ function History() {
     useEffect(() => {
         get(child(dbRef, `accounts/${location.state.id.replace("User", "")}/completedLectures`)).then((snapshot) => {
             if (snapshot.exists()) {
-                setLessonCompleted(Object.values(snapshot.val()));
+                const lessonList = []
+                if (snapshot.val().basic) {
+                    lessonList.push((Object.values(snapshot.val().basic)));
+                }
+                if (snapshot.val().advanced) {
+                    lessonList.push((Object.values(snapshot.val().advanced)));
+                }
+                lessonList.push(Object.values(snapshot.val()).slice(2));
+                setLessonCompleted(lessonList.flat())
             } else {
                 console.log("No data available");
             }
@@ -23,6 +31,8 @@ function History() {
             console.error(error);
         });
     }, []);
+
+    console.log(lessonCompleted)
 
     const onSignOut = () => {
         SignOut();
@@ -33,29 +43,30 @@ function History() {
         <div className="bg-navbar text-center justify-center">
             <Header user={location.state} onClick={onSignOut} />
             <Navbar />
-            <p className="font-semibold text-3xl mt-5">STUDY HISTORY</p>
-            <div className="min-h-screen flex flex-col ml-20 mr-20 mt-10">
-                <table className="table-auto border-collapse border border-slate-400">
-                    <thead className="bg-blue-300">
-                        <tr>
-                            <th className="border border-slate-300 p-3">Lesson Name</th>
-                            <th className="border border-slate-300 p-3">Time Completed</th>
-                            <th className="border border-slate-300 p-3">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            lessonCompleted.map((lesson, index) => (
-                                <tr key={index}>
-                                    <td className="border border-slate-300 p-3">{lesson.title}</td>
-                                    <td className="border border-slate-300 p-3">{lesson.completeAt}</td>
-                                    <td className="border border-slate-300 p-3">10</td>
-                                </tr>
-
-                            ))
-                        }
-                    </tbody>
-                </table>
+            <p className="font-serif font-semibold text-4xl mt-10 text-purple-500">STUDY HISTORY</p>
+            <div className="min-h-screen flex flex-col mx-20 my-10">
+                <div className="border p-5 flex-grow w-full rounded-xl shadow-lg shadow-violet-300">
+                    <div className="rounded-lg overflow-hidden">
+                        <div className="bg-indigo-300 text-xl">
+                            <div className="flex">
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Lesson Name</div>
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Time Completed</div>
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Score</div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            {
+                                lessonCompleted.map((lesson, index) => (
+                                    <div key={index} className="flex">
+                                        <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.title}</div>
+                                        <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.completeAt}</div>
+                                        <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.score}</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

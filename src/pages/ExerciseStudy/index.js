@@ -260,6 +260,7 @@ function ExerciseStudy() {
             }
         }
     };
+    
     useEffect(() => {
         if (result !== null && result !== undefined) {
             notify();

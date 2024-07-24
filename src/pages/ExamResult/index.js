@@ -10,7 +10,7 @@ import { child, get, ref, set } from 'firebase/database';
 import { database } from '../../firebase/firebase';
 import Avatar from 'react-avatar';
 import images from '../../images';
-
+import moment from 'moment';
 
 function ExamResult() {
     const { t } = useTranslation();
@@ -22,7 +22,7 @@ function ExamResult() {
     const [isClick, setIsClick] = useState(true);
     const dbRef = ref(database);
     const navigate = useNavigate();
-
+    const [filteredScores, setFilteredScores] = useState([]);
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -118,9 +118,9 @@ function ExamResult() {
         const rankList = [];
         userArray.forEach(user => {
             if (user.totalScore === undefined) {
-                rankList.push({ account: user.account, fullname: user.name, score: 0 })
+                rankList.push({ account: user.account, fullname: user.name, score: 0, avatarUrl: user.avatarUrl })
             } else {
-                rankList.push({ account: user.account, fullname: user.name, score: user.totalScore.totalScore })
+                rankList.push({ account: user.account, fullname: user.name, score: user.totalScore.totalScore, avatarUrl: user.avatarUrl })
             }
         })
         setRankArray(rankList.sort((a, b) => b.score - a.score));
@@ -134,6 +134,31 @@ function ExamResult() {
         return `#${rdNum.toString(16).padStart(6, '0')}`;
     }
     const topUserColor = randomColor();
+
+     // Hàm lọc theo tuần
+     const filterByWeek = (scores) => {
+        const startOfWeek = moment().startOf('week');
+        const endOfWeek = moment().endOf('week');
+        return scores.filter(score => moment(score.completeAt).isBetween(startOfWeek, endOfWeek));
+    };
+
+    // Hàm lọc theo tháng
+    const filterByMonth = (scores) => {
+        const startOfMonth = moment().startOf('month');
+        const endOfMonth = moment().endOf('month');
+        return scores.filter(score => moment(score.completeAt).isBetween(startOfMonth, endOfMonth));
+    };
+
+    useEffect(() => {
+        let filtered = rankArray;
+        if (isClick) {
+            filtered = filterByWeek(rankArray);
+        } else {
+            filtered = filterByMonth(rankArray);
+        }
+        setFilteredScores(filtered);
+    }, [isClick, rankArray]);
+
 
     return (
         <div className='flex flex-col'>
@@ -150,7 +175,9 @@ function ExamResult() {
                         {
                             top &&
                             <div className="flex flex-col bg-green-100 items-center justify-start text-2xl w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">
-                                <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
+                                {
+                                    top.avatarUrl ? <img src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
+                                }
                                 <img className="absolute w-80 h-80 top-[330px]" src={images.win} />
                                 <div className="pt-20">{top.account}</div>
                                 <div className="pt-3 font-bold text-3xl">{top.fullname}</div>
@@ -159,9 +186,11 @@ function ExamResult() {
                         <div className="w-2/3 pr-5">
                             <div className="font-semibold bg-sky-100 text-lg w-full min-h-max overflow-y-auto max-h-screen border shadow-xl p-3 mx-6 rounded-lg shadow-green-300">
                                 {
-                                    rankArray.map((ranktable, index) => (
-                                        <div className={`flex flex-wrap items-end pb-10 ${index !== rankArray.length - 1 ? 'border-b-2' : ''}`} key={index}>
-                                            <Avatar className="p-3 m-2" name={ranktable.fullname} size="80" round={true} color={index === 0 ? topUserColor : randomColor()} />
+                                    filteredScores.map((ranktable, index) => (
+                                        <div className={`relative flex flex-wrap items-end pb-10 ${index !== rankArray.length - 1 ? 'border-b-2' : ''}`} key={index}>
+                                            {
+                                                ranktable.avatarUrl ? <div className='relative left-5 top-5'><img className='flex w-24 h-24 rounded-full p-2' src={ranktable.avatarUrl} alt='avatar' /></div> : <Avatar className="p-3 m-2" name={ranktable.fullname} size="80" round={true} color={index === 0 ? topUserColor : randomColor()} />
+                                            }
                                             <div className="flex-1 p-3 ml-4">{ranktable.account}</div>
                                             <div className="flex-1 p-3">{ranktable.fullname}</div>
                                             <div className="flex-1 p-3">{ranktable.score}</div>

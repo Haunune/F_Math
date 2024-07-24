@@ -89,22 +89,11 @@ function BasicEx({userInfo}) {
             };
 
             const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
-
-            try {
-                const evalResult = eval(code);
-                setResult(evalResult);
-            } catch (error) {
-                console.error('Error executing Blockly generated code:', error);
-                setResult('Error executing Blockly generated code');
-            }
-
             // trường hợp cần theo hướng dẫn
             if (isInstruct) {
                 const codeArray = code.split(" ");
-
                 // kiểm tra định dạng
-                if ((codeArray[1] === '+' || codeArray[1] === '-') && codeArray[3] === '==') {
-                    console.log(codeArray)
+                if ((codeArray[1] === '+' || codeArray[1] === '-' || codeArray[1] === '*' || codeArray[1] === '/') && codeArray[3] === '==') {
                     const number = numbers.split(" ");
                     const num1 = codeArray[0].replace(/[()]/g, '');
 
@@ -135,7 +124,6 @@ function BasicEx({userInfo}) {
                             if ((num1 === number[0] && codeArray[2] === number[1])) {
                                 try {
                                     const evalResult = eval(code);
-
                                     setResult(evalResult);
                                 } catch (error) {
                                     console.error('Error executing Blockly generated code:', error);
@@ -155,7 +143,56 @@ function BasicEx({userInfo}) {
                                 })
                             }
                         }
+                        if (codeArray[1] === '*') {
+                            if ((num1 === number[0] && codeArray[2] === number[1]) || (num1 === number[1] && codeArray[2] === number[0])) {
+                                try {
+                                    const evalResult = eval(code);
+                                    setResult(evalResult);
+                                } catch (error) {
+                                    console.error('Error executing Blockly generated code:', error);
+                                    setResult('Error executing Blockly generated code');
+                                }
+                            } else {
+                                toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "light",
+                                    transition: Slide,
+                                })
+                            }
+                        } else {
+                            if (codeArray[1] === '/') {
+                                if ((num1 === number[0] && codeArray[2] === number[1])) {
+                                    try {
+                                        const evalResult = eval(code);
+
+                                        setResult(evalResult);
+                                    } catch (error) {
+                                        console.error('Error executing Blockly generated code:', error);
+                                        setResult('Error executing Blockly generated code');
+                                    }
+                                } else {
+                                    toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                        position: "top-right",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "light",
+                                        transition: Slide,
+                                    })
+                                }
+                            }
+                        }
                     }
+                    setIsInstruct(false);
                 } else {
                     toast.warning("You need to enter the correct format according to the instructions!", {
                         position: "top-right",
@@ -168,6 +205,16 @@ function BasicEx({userInfo}) {
                         theme: "light",
                         transition: Slide,
                     })
+                }
+                setIsInstruct(false);
+            } else {
+                try {
+                    const evalResult = eval(code);
+                    setResult(evalResult);
+                    setIsInstruct(false);
+                } catch (error) {
+                    console.error('Error executing Blockly generated code:', error);
+                    setResult('Error executing Blockly generated code');
                 }
             }
         }
@@ -289,7 +336,7 @@ function BasicEx({userInfo}) {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1\n To pass this test you need to follow the following structure\n%2",
+                        "message0": "\n%1\n To pass this test you need to follow the following structure\n%2",
                         "args0": [
                             {
                                 "type": "field_image",
@@ -318,7 +365,7 @@ function BasicEx({userInfo}) {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1",
+                        "message0": "\n%1",
                         "args0": [
                             {
                                 "type": "field_image",

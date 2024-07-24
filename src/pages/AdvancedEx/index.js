@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 
 Blockly.setLocale(En);
 
-function AdvancedEx({userInfo}) {
+function AdvancedEx({ userInfo }) {
     const location = useLocation();
     const dbRef = ref(database);
     const workspaceRef = useRef(null);
@@ -89,22 +89,11 @@ function AdvancedEx({userInfo}) {
             };
 
             const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
-
-            try {
-                const evalResult = eval(code);
-                setResult(evalResult);
-            } catch (error) {
-                console.error('Error executing Blockly generated code:', error);
-                setResult('Error executing Blockly generated code');
-            }
-
             // trường hợp cần theo hướng dẫn
             if (isInstruct) {
                 const codeArray = code.split(" ");
-
                 // kiểm tra định dạng
-                if ((codeArray[1] === '+' || codeArray[1] === '-') && codeArray[3] === '==') {
-                    console.log(codeArray)
+                if ((codeArray[1] === '+' || codeArray[1] === '-' || codeArray[1] === '*' || codeArray[1] === '/') && codeArray[3] === '==') {
                     const number = numbers.split(" ");
                     const num1 = codeArray[0].replace(/[()]/g, '');
 
@@ -135,7 +124,6 @@ function AdvancedEx({userInfo}) {
                             if ((num1 === number[0] && codeArray[2] === number[1])) {
                                 try {
                                     const evalResult = eval(code);
-
                                     setResult(evalResult);
                                 } catch (error) {
                                     console.error('Error executing Blockly generated code:', error);
@@ -155,7 +143,56 @@ function AdvancedEx({userInfo}) {
                                 })
                             }
                         }
+                        if (codeArray[1] === '*') {
+                            if ((num1 === number[0] && codeArray[2] === number[1]) || (num1 === number[1] && codeArray[2] === number[0])) {
+                                try {
+                                    const evalResult = eval(code);
+                                    setResult(evalResult);
+                                } catch (error) {
+                                    console.error('Error executing Blockly generated code:', error);
+                                    setResult('Error executing Blockly generated code');
+                                }
+                            } else {
+                                toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "light",
+                                    transition: Slide,
+                                })
+                            }
+                        } else {
+                            if (codeArray[1] === '/') {
+                                if ((num1 === number[0] && codeArray[2] === number[1])) {
+                                    try {
+                                        const evalResult = eval(code);
+
+                                        setResult(evalResult);
+                                    } catch (error) {
+                                        console.error('Error executing Blockly generated code:', error);
+                                        setResult('Error executing Blockly generated code');
+                                    }
+                                } else {
+                                    toast.warning("You need to enter the correct number according to the requirements of the question!", {
+                                        position: "top-right",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "light",
+                                        transition: Slide,
+                                    })
+                                }
+                            }
+                        }
                     }
+                    setIsInstruct(false);
                 } else {
                     toast.warning("You need to enter the correct format according to the instructions!", {
                         position: "top-right",
@@ -168,6 +205,16 @@ function AdvancedEx({userInfo}) {
                         theme: "light",
                         transition: Slide,
                     })
+                }
+                setIsInstruct(false);
+            } else {
+                try {
+                    const evalResult = eval(code);
+                    setResult(evalResult);
+                    setIsInstruct(false);
+                } catch (error) {
+                    console.error('Error executing Blockly generated code:', error);
+                    setResult('Error executing Blockly generated code');
                 }
             }
         }
@@ -289,7 +336,7 @@ function AdvancedEx({userInfo}) {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1\n To pass this test you need to follow the following structure\n%2",
+                        "message0": "\n%1\n To pass this test you need to follow the following structure\n%2",
                         "args0": [
                             {
                                 "type": "field_image",
@@ -318,7 +365,7 @@ function AdvancedEx({userInfo}) {
                 Blockly.defineBlocksWithJsonArray([
                     {
                         "type": "image_block",
-                        "message0": "Remember \n%1",
+                        "message0": "\n%1",
                         "args0": [
                             {
                                 "type": "field_image",
@@ -364,7 +411,7 @@ function AdvancedEx({userInfo}) {
         const completeAt = new Date().toISOString();
         const score = 20;
 
-        await set(child(dbRef, `accounts/${user.replace("User","")}/completedLectures/` + `advanced/${lectureId}`), {
+        await set(child(dbRef, `accounts/${user.replace("User", "")}/completedLectures/` + `advanced/${lectureId}`), {
             title,
             completeAt,
             score,
@@ -376,11 +423,11 @@ function AdvancedEx({userInfo}) {
     // cập nhật bài học
     useEffect(() => {
         const fetchCompletedLectures = async () => {
-            const snapshot = await get(child(dbRef, `accounts/${user.id.replace("User","")}/completedLectures/advanced`));
+            const snapshot = await get(child(dbRef, `accounts/${user.id.replace("User", "")}/completedLectures/advanced`));
             if (snapshot.exists()) {
                 const completed = Object.keys(snapshot.val());
                 setCompletedLectures(completed);
-                
+
                 const lastCompletedLecture = completed[completed.length - 1];
                 const lastCompletedIndex = lecturessArray.findIndex(lecture => lecture.id === lastCompletedLecture);
                 if (lastCompletedIndex !== -1 && lastCompletedIndex < lecturessArray.length - 1) {
@@ -407,8 +454,8 @@ function AdvancedEx({userInfo}) {
                         lecturessArray.map((lecture, index) => (
                             <button onClick={() => (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? null : handleClick(lecture)}
                                 key={lecture.id}
-                                className={`h-14 w-full mb-3 rounded shadow focus:bg-green-500 ${selected === lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${ (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
-                                disabled={ (index > 0 && !completedLectures.includes(lecturessArray[index - 1].id))}
+                                className={`h-14 w-full mb-3 rounded shadow focus:bg-green-500 ${selected === lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
+                                disabled={(index > 0 && !completedLectures.includes(lecturessArray[index - 1].id))}
                             >
                                 {lecture.title}
                             </button>

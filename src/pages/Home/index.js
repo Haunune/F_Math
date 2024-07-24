@@ -40,18 +40,6 @@ function Home() {
     useEffect(() => {
         const listen = onAuthStateChanged(auth, (user) => {
             if (user) {
-                if (user.photoURL) {
-                    set(child(dbRef, `accounts/` + user.uid), {
-                        id: "User" + user.uid,
-                        email: user.email,
-                        password: '',
-                        name: user.displayName,
-                        account: 'anonymous users',
-                        phone: '',
-                        type: 'Student',
-                    });
-                }
-                console.log(user)
                 get(child(dbRef, `accounts/${user.uid}`)).then((snapshot) => {
                     if (snapshot.exists()) {
                         const userDetails = snapshot.val();
@@ -61,6 +49,17 @@ function Home() {
                         }
                     } else {
                         console.log("No data available");
+                        if (user.photoURL) {
+                            set(child(dbRef, `accounts/` + user.uid), {
+                                id: "User" + user.uid,
+                                email: user.email,
+                                password: '',
+                                name: user.displayName,
+                                account: 'anonymous users',
+                                phone: '',
+                                type: 'Student',
+                            });
+                        }
                     }
                 }).catch((error) => {
                     console.error(error);
@@ -194,7 +193,7 @@ function Home() {
                             <p className="absolute text-2xl w-full top-9 left-28 font-serif font-bold text-sky-600">Honor the student with the highest score</p>
                             <div className="w-3/5 pl-10 text-xl leading-loose">
                                 <div className="pt-3 font-semibold text-4xl font-mono text-red-400">Name: {top.fullname}</div>
-                                <div className="pt-5 font-semibold text-3xl font-mono text-red-400">Score: {top.score.totalScore}</div>
+                                <div className="pt-5 font-semibold text-3xl font-mono text-red-400">Score: {top.score}</div>
                             </div>
                         </div>
                     }
