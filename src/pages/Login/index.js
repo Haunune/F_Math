@@ -80,13 +80,13 @@ function Login() {
 
 
     return (
-        <div className="flex bg-primary min-h-screen">
-            <NavLink className="w-6/12 min-h-screen"  to={'/'}>
+        <div className="flex justify-center bg-primary min-h-screen">
+            <NavLink className="sm:w-6/12 sm:block hidden sm:min-h-screen"  to={'/'}>
                 <img className="min-h-screen"  src={logo} alt="Logo" />
             </NavLink>
 
-            <div className="flex flex-col w-6/12 items-center py-40 px-36">
-                <p className="text-5xl font-bold mb-8">{t('signin')}</p>
+            <div className="flex flex-col sm:w-6/12 items-center lg:py-28 py-20 lg:px-12 md:px-4">
+                <p className="sm:text-5xl text-3xl font-bold mb-8">{t('signin')}</p>
                 <ToastContainer />
                 <form className="flex flex-col" onSubmit={onSubmit}>
 
@@ -95,7 +95,7 @@ function Login() {
                 <p onClick={() => setForgot(true)} className="flex flex-end self-end mr-2 mt-2 mb-6 underline underline-offset-1">{t('forgot')}</p>
                 <button onClick={onSubmit} className="bg-green-500 hover:bg-green-700 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl">{t('signin')}</button>
                 </form>
-                <button onClick={onGoogleSignIn} className="flex items-center bg-white hover:bg-slate-200 mt-4 mr-6 ml-6 p-3 px-20 rounded text-slate-600 font-semibold text-xl">
+                <button onClick={onGoogleSignIn} className="flex items-center bg-white hover:bg-slate-200 mt-4 mx-6 p-3 md:px-10 lg:px-20 px-16 rounded text-slate-600 font-semibold text-xl">
                     <div className="size-4">
                         <FcGoogle />
                     </div>

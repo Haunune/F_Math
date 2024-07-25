@@ -176,7 +176,7 @@ function ExamResult() {
                             top &&
                             <div className="flex flex-col bg-green-100 items-center justify-start text-2xl w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">
                                 {
-                                    top.avatarUrl ? <img src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
+                                    top.avatarUrl ? <img className="w-60 h-60 mt-16 rounded-full" src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
                                 }
                                 <img className="absolute w-80 h-80 top-[330px]" src={images.win} />
                                 <div className="pt-20">{top.account}</div>

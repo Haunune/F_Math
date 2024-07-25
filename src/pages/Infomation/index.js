@@ -220,7 +220,7 @@ function Infomation() {
                 <ToastContainer />
                 <div className="flex flex-col items-center max-content w-1/3 border shadow-xl p-3 rounded-lg shadow-rose-300">
                     {/* avatar */}
-                    <div className="relative cursor-pointer"
+                    <div className="relative cursor-pointer mt-8"
                         onClick={handleImage}
                         onMouseEnter={() => setIsHover(true)}
                         onMouseLeave={() => setIsHover(false)}
@@ -229,11 +229,11 @@ function Infomation() {
                             changeImage ? <img className="w-64 h-64 mt-8 rounded-full" src={URL.createObjectURL(changeImage)} alt="avatar" /> 
                             :
                             (
-                                avatarUrl  ? <img  className="w-64 h-64 mt-8 rounded-full" src={avatarUrl} alt="avatar"  />  : <Avatar className="mt-7" name={name} size="250" round={true} color={randomColor()} />
+                                avatarUrl  ? <img  className="w-64 h-64 mt-8 rounded-full" src={avatarUrl} alt="avatar"  />  : <Avatar name={name} size="256" round={true} color={randomColor()} />
                                 
                             ) 
                         }
-                        <span title="Upload Image" className={`absolute ${isHover ? 'flex' : 'hidden'} items-center justify-center text-9xl -bottom-7 left-0 w-full h-[249px] rounded-full bg-gray-500 opacity-80`}>
+                        <span title="Upload Image" className={`absolute ${isHover ? 'flex' : 'hidden'} items-center justify-center text-9xl bottom-1 left-0 w-full h-[249px] rounded-full bg-gray-500 opacity-80`}>
                             <RiImageEditFill />
                         </span>
                         <input type="file" className="hidden" ref={inputRef} onChange={UploadImage} />

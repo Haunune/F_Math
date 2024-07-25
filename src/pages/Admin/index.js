@@ -8,9 +8,11 @@ import { SignOut } from "../../firebase/auth";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../../firebase/firebase";
-import { child, get, ref, set } from "firebase/database";
+import { child, get, ref, remove, set, update } from "firebase/database";
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ImCancelCircle } from "react-icons/im";
+
 
 function Admin() {
     const location = useLocation();
@@ -24,9 +26,11 @@ function Admin() {
     const [isUserManager, setUserManager] = useState(false);
     const [isclickformStudy, setIsclickFormStudy] = useState(false);
     const [isclickHelp, setIsClickHelp] = useState(false);
+    const [isanswerHelp, setIsAnswerHelp] = useState(false);
     const [title, setTitleLecture] = useState('');
     const [lecture_content, setContentLecture] = useState('');
     const [resultLecture, setResultLecture] = useState('');
+    const [answer, setAnswer] = useState('');
 
     const [checkSemester, setCheckSemester] = useState('Semester1');
     const [chooseTopic, setChooseTopic] = useState('');
@@ -64,7 +68,8 @@ function Admin() {
 
     const deleteUser = async (userId) => {
         try {
-            await dbRef.firestore().collection('users').doc(userId).delete();
+            await remove(child(dbRef, `accounts/${userId.replace("User", "")}/`));
+            await deleteUser(userId.replace("User", ""));
             setUsers(users.filter(user => user.id !== userId));
             alert('User deleted successfully!');
         } catch (error) {
@@ -202,23 +207,54 @@ function Admin() {
     useEffect(() => {
         const userHelps = [];
         users.forEach(user => {
-            if(user.helps){
-                userHelps.push({ id: user.id, help: user.helps });
+            if (user.helps) {
+                const helpsArray = Object.values(user.helps).map(helpItem => ({
+                    ...helpItem, idUser: user.id, nameUser: user.account
+                }));
+                userHelps.push(...helpsArray);
             }
         });
         setHelp(userHelps)
     }, [users]);
 
+    const handleAnswer = async (event, helpItem) => {
+        event.preventDefault();
+        setIsAnswerHelp(false);
+        console.log(helpItem)
+
+        await update(child(dbRef, `accounts/${helpItem.idUser.replace("User","")}/helps/${helpItem.id.replace("help","")}`), {
+            answer,
+            state: true,
+        }).then(() => {
+            setAnswer(answer)
+
+            toast.success('Update information successfully', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Slide,
+            });
+        }).catch((error) => {
+            alert("Error Updating Data:", error.message);
+        });
+    }
+
     return (
         <>
             <Header onClick={onSignOut} user={location.state} />
             <div className="flex">
+                <ToastContainer/>
                 <div className="flex flex-col min-h-screen w-1/5 py-10 bg-orange-200">
                     {/* các components */}
                     <button onClick={() => { setUserManager(!isUserManager); setIsclickStudy(false); setIsClickHelp(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"> <FaUserCog className="mr-4 mt-1" /> Quản lý tài khoản user</button>
                     <button onClick={() => { setIsclickStudy(!isclickStudy); setUserManager(false); setIsClickHelp(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><FaBook className="mr-4 mt-1" />Quản lý học tập</button>
                     <button className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><MdAccessTimeFilled className="mr-4 mt-1" />Thống kê truy cập</button>
-                    <button onClick={() => { setIsClickHelp(!isclickHelp); setUserManager(false); setIsclickStudy(false)}} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><TbHelpOctagonFilled className="mr-4 mt-1" />Trả lời help</button>
+                    <button onClick={() => { setIsClickHelp(!isclickHelp); setUserManager(false); setIsclickStudy(false) }} className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><TbHelpOctagonFilled className="mr-4 mt-1" />Trả lời help</button>
                     <button className="flex text-xl p-6 hover:bg-blue-300 focus:bg-blue-300"><GrDocumentUpdate className="mr-4 mt-1" />Update tuyên dương</button>
                 </div>
                 {/* Handle User Manager */}
@@ -330,33 +366,60 @@ function Admin() {
                 {/* Handle Answer Help */}
                 {
                     isclickHelp ?
-                    <div className="flex jutify-center w-screen h-fit p-10">
-                        <table className="table-auto border-collapse border border-slate-400">
-                            <thead className="bg-blue-300">
-                                <tr>
-                                    <th className="border border-slate-300 p-3">ID</th>
-                                    <th className="border border-slate-300 p-3">Title</th>
-                                    <th className="border border-slate-300 p-3">Content</th>
-                                    <th className="border border-slate-300 p-3">Time</th>
-                                    <th className="border border-slate-300 p-3">Answer</th>
-                                    <th className="border border-slate-300 p-3">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {helps.map(help => (
-                                    <tr key={help.id}>
-                                        <td className="border border-slate-300 p-3">{help.id}</td>
-                                        <td className="border border-slate-300 p-3">{help.title_help}</td>
-                                        <td className="border border-slate-300 p-3">{help.content_help}</td>
-                                        <td className="border border-slate-300 p-3">{help.answer}</td>
-                                        <td className="border border-slate-300 p-3">{help.time}</td>
-                                        <td className="border border-slate-300 p-3"><button className="bg-red-400 p-3 rounded" onClick={() => deleteUser(help.id)}>Delete</button></td>
+                        <div className="flex jutify-center w-screen h-fit p-10">
+                            <table className="table-auto border-collapse border border-slate-400">
+                                <thead className="bg-blue-300">
+                                    <tr>
+                                        <th className="border border-slate-300 p-3">User</th>
+                                        <th className="border border-slate-300 p-3">ID</th>
+                                        <th className="border border-slate-300 p-3">Title</th>
+                                        <th className="border border-slate-300 p-3">Content</th>
+                                        <th className="border border-slate-300 p-3">Time</th>
+                                        <th className="border border-slate-300 p-3">Answer</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    : ""
+                                </thead>
+                                <tbody>
+                                    {helps.map(helpItem => (
+                                        helpItem.state ? "" :
+                                        <tr key={helpItem.id}>
+                                            <td className="border border-slate-300 p-3">{helpItem.nameUser}</td>
+                                            <td className="border border-slate-300 p-3">{helpItem.id}</td>
+                                            <td className="border border-slate-300 p-3">{helpItem.title_help}</td>
+                                            <td className="border border-slate-300 p-3">{helpItem.content_help}</td>
+                                            <td className="border border-slate-300 p-3">{helpItem.time}</td>
+                                            <td className="border border-slate-300 p-3">
+                                                <button onClick={() => setIsAnswerHelp(true)} className="bg-green-500 p-3 rounded-lg">Answer</button>
+                                            {
+                                                isanswerHelp ?
+                                                    <div key={helpItem.id} className="flex absolute justify-center items-center top-0 left-10 w-full h-full bg-gray-200 bg-opacity-50 z-10">
+                                                        <div className="bg-white z-20 border rounded-lg w-1/2 p-10">
+                                                            <div onClick={() => setIsAnswerHelp(false)} className="flex justify-end text-3xl" ><ImCancelCircle /></div>
+                                                            <p className="text-2xl font-bold text-black pt-5 text-center text-5xl">Answer</p>
+                                                            <div className="flex flex-col">
+                                                                <div className="flex items-center pt-5 w-full">
+                                                                    <span className="ml-5 min-w-32 text-red-500 font-semibold text-2xl">Question:</span>
+                                                                    <div>{helpItem.content_help}</div>
+                                                                </div>
+                                                                <div className="flex items-center pt-5 w-full">
+                                                                    <span className="ml-5 min-w-32 text-red-500 font-semibold text-2xl">Answer:</span>
+                                                                    <textarea onChange={e => setAnswer(e.target.value)} className="mr-5 rounded-lg" />
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex justify-end pt-5">
+                                                                <button onClick={e => handleAnswer(e, helpItem)} className="bg-blue-500 text-white px-5 py-3 mr-5 rounded-lg">Accept</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    : ""
+                                            }
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        : ""
                 }
 
             </div>

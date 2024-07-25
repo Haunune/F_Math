@@ -31,7 +31,7 @@ function Support() {
     }, [navigate, location.state]);
 
     useEffect(() => {
-        if(!checkChoose){
+        if (!checkChoose) {
             get(child(dbRef, `accounts/${user.id.replace("User", "")}/helps/`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     setHelpArray(Object.values(snapshot.val()));
@@ -143,34 +143,35 @@ function Support() {
                                     </div>
                                 </div>
                             </div>
-
                         </div> : <div className="flex flex-col w-2/3 items-center">
                             <p className="text-center text-amber-950 font-bold text-4xl">HISTORY SUPPORTED</p>
-                            <div className="min-h-screen flex flex-col w-full ml-20 mr-20 mt-10 pr-10">
-                                <table className="w-full table-auto border-collapse border border-slate-400">
-                                    <thead className="bg-blue-300">
-                                        <tr>
-                                            <th className="border border-slate-300 p-3"> ID</th>
-                                            <th className="border border-slate-300 p-3"> Title</th>
-                                            <th className="border border-slate-300 p-3">Content Help</th>
-                                            <th className="border border-slate-300 p-3">Answer</th>
-                                            <th className="border border-slate-300 p-3">State</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            helpArray.map((item) => (
-                                                <tr key={item.id}>
-                                                    <td className="border border-slate-300 p-3">{item.id}</td>
-                                                    <td className="border border-slate-300 p-3">{item.title_help}</td>
-                                                    <td className="border border-slate-300 p-3">{item.content_help}</td>
-                                                    <td className="border border-slate-300 p-3">{item.answer}</td>
-                                                    <td className="border border-slate-300 p-3">{item.state ? <span className="p-2 text-emerald-600">Processed</span> : <span className="p-2 text-red-600">Pending</span>}</td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
+                            <div className="min-h-max overflow-y-auto max-h-screen flex flex-col mx-20 my-10">
+                                <div className="p-5 flex-grow w-full rounded-xl">
+                                    <div className="rounded-lg overflow-hidden shadow-lg shadow-amber-200">
+                                        <div className="bg-orange-300">
+                                            <div className="flex text-xl font-semibold text-center">
+                                                <div className="flex-1 border border-slate-300 p-3"> ID</div>
+                                                <div className="flex-1 border border-slate-300 p-3"> Title</div>
+                                                <div className="flex-1 border border-slate-300 p-3">Content Help</div>
+                                                <div className="flex-1 border border-slate-300 p-3">Answer</div>
+                                                <div className="flex-1 border border-slate-300 p-3">State</div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            {
+                                                helpArray.map((item) => (
+                                                    <div className="flex min-h-max overflow-y-auto" key={item.id}>
+                                                        <div className="flex-1 text-center border border-slate-300 p-3">{item.id}</div>
+                                                        <div className="flex-1 text-center border border-slate-300 p-3">{item.title_help}</div>
+                                                        <div className="flex-1 text-center border border-slate-300 p-3">{item.content_help}</div>
+                                                        <div className="flex-1 text-center border border-slate-300 p-3">{item.answer}</div>
+                                                        <div className="flex-1 text-center border border-slate-300 p-3">{item.state ? <span className="p-2 font-bold text-xl text-emerald-600">Processed</span> : <span className="p-2 font-bold text-xl text-red-600">Pending</span>}</div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 }

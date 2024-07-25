@@ -19,18 +19,18 @@ function Header({ user, onClick }) {
         <div className="bg-navbar">
             <div className="flex items-center h-16">
                 <NavLink to={"/"}>
-                    <div className="pr-4 pl-4">
+                    <div className="pr-4 sm:pl-4 pl-2">
                         <div className="flex items-center">
-                            <img className="h-14 pr-2" src={logo} alt={"Logo"} />
-                            <h2 className="m-0 font-serif font-semibold text-4xl">F-Math</h2>
+                            <img className="sm:h-14 h-9 pr-2" src={logo} alt={"Logo"} />
+                            <h2 className="m-0 font-serif font-semibold sm:text-4xl text-sm">F-Math</h2>
                         </div>
                     </div>
                 </NavLink>
-                <div className="absolute flex items-center text-xl end-0">
+                <div className="absolute flex items-center sm:text-xl text-xs end-0">
                     {/* lựa chọn ngôn ngữ */}
-                    <div className="flex px-4 items-center">
+                    <div className="flex sm:px-4 items-center">
                         <MdLanguage />
-                        <select name='language' className="border-0 border-transparent bg-navbar outline-none focus:ring-0 focus:outline-none" onChange={(e) => changeLanguage(e.target.value)}>
+                        <select name='language' className="text-xs border-0 border-transparent bg-navbar outline-none focus:ring-0 focus:outline-none" onChange={(e) => changeLanguage(e.target.value)}>
                             <option value={"en"}>English</option>
                             <option value={"vi"}>Vietnamese</option>
                         </select>
@@ -49,7 +49,7 @@ function Header({ user, onClick }) {
                                 </div>
                             )}
                         </div>
-                        : <div className="pr-4 pl-4 items-stretch">
+                        : <div className="sm:px-4 px-1 items-stretch">
                             <NavLink to={"/login"}>
                                 <Button nav={false} text={t('header.login')} />
                             </NavLink>

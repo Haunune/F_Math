@@ -44,7 +44,7 @@ function History() {
             <Header user={location.state} onClick={onSignOut} />
             <Navbar />
             <p className="font-serif font-semibold text-4xl mt-10 text-purple-500">STUDY HISTORY</p>
-            <div className="min-h-screen flex flex-col mx-20 my-10">
+            <div className="min-h-max overflow-y-auto max-h-screen flex flex-col mx-20 my-10">
                 <div className="border p-5 flex-grow w-full rounded-xl shadow-lg shadow-violet-300">
                     <div className="rounded-lg overflow-hidden">
                         <div className="bg-indigo-300 text-xl">

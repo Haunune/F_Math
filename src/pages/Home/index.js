@@ -184,30 +184,30 @@ function Home() {
             <Header onClick={onSignOut} user={authUser} />
             <Navbar user={authUser} />
             <div className="min-h-screen bg-navbar">
-                <div className="flex min-h-80 ">
+                <div className="flex flex-col sm:flex-row min-h-80 ">
                     {top &&
-                        <div className="relative flex w-2/4 p-4 justify-center items-center">
-                            <div className="w-2/5 mx-5 mt-5">
-                                <img className=" border shadow-xl rounded-full bg-red-600 shadow-orange-300" src={images.usertop} />
+                        <div className="relative flex sm:w-2/4 p-4 justify-center items-center">
+                            <div className="sm:w-2/5 w-1/3 mx-5 mt-5">
+                                <img className=" border sm:shadow-xl shadow-lg rounded-full bg-red-600 shadow-orange-300" src={images.usertop} />
                             </div>
-                            <p className="absolute text-2xl w-full top-9 left-28 font-serif font-bold text-sky-600">Honor the student with the highest score</p>
-                            <div className="w-3/5 pl-10 text-xl leading-loose">
-                                <div className="pt-3 font-semibold text-4xl font-mono text-red-400">Name: {top.fullname}</div>
-                                <div className="pt-5 font-semibold text-3xl font-mono text-red-400">Score: {top.score}</div>
+                            <p className="absolute xl:text-3xl lg:text-xl md:text-base text-sm w-full sm:top-9 top-2 left-9 font-serif font-bold text-sky-600">Honor the student with the highest score</p>
+                            <div className="sm:w-3/5 w-2/3 lg:pl-10 leading-loose">
+                                <div className="pt-3 font-semibold xl:text-3xl lg:text-xl md:text-base text-lg font-mono text-red-400">Name: {top.fullname}</div>
+                                <div className="pt-5 font-semibold xl:text-2xl lg:text-lg md:text-sm text-base font-mono text-red-400">Score: {top.score}</div>
                             </div>
                         </div>
                     }
-                    <div className="w-2/4">
+                    <div className="sm:w-2/4 my-4">
                         <Carousel />
                     </div>
                 </div>
-                <div className="flex bg-navbar max-w-screen min-h-screen">
+                <div className="flex flex-col sm:flex-row bg-navbar max-w-screen min-h-screen">
                     {
                         informationsArray.map((item, index) => (
-                            <div key={index} className="flex flex-col max-w-prose max-h-full p-8">
-                                <img className="h-2/4" src={item.imageUrl} alt="Advertise website" />
-                                <span className="font-bold text-2xl mt-8">{item.title}</span>
-                                <div className="text-ellipsis text-justify overflow-hidden text-wrap">{item.content}</div>
+                            <div key={index} className="flex flex-col sm:max-w-prose sm:max-h-full sm:p-8 p-2">
+                                <img className="sm:h-1/3" src={item.imageUrl} alt="Advertise website" />
+                                <span className="font-bold sm:text-2xl text-xl sm:mt-8 mt-4">{item.title}</span>
+                                <div className="text-ellipsis text-justify overflow-hidden max-w-md leading-relaxed">{item.content}</div>
                             </div>
                         ))
                     }

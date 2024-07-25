@@ -176,12 +176,12 @@ function Register() {
     }
 
     return (
-        <div className="flex bg-primary min-h-screen">
-            <NavLink className="w-6/12 min-h-screen"  to={'/'}>
+        <div className="flex justify-center bg-primary min-h-screen">
+            <NavLink className="sm:w-6/12 sm:block hidden min-h-screen"  to={'/'}>
                 <img className="min-h-screen"  src={logo} alt="Logo" />
             </NavLink>
-            <div className="flex flex-col w-6/12 items-center p-40">
-                <p className="text-5xl font-bold mb-8">Register</p>
+            <div className="flex flex-col sm:w-6/12 items-center lg:p-16 sm:mt-2">
+                <p className="lg:text-5xl text-4xl font-bold lg:mb-8 md:mb-2">Register</p>
                 <ToastContainer />
                 <form onSubmit={onSubmit} className="flex flex-col w-full items-center">
                     <InputForm text="Tài khoản" type="text" onChange={e => setAccount(e.target.value)} />
@@ -191,7 +191,7 @@ function Register() {
                     <InputForm text="Nhập lại mật khẩu" type="password" onChange={e => setConfirmPw(e.target.value)} />
                     <InputForm text="Email" type="text" onChange={e => setEmail(e.target.value)} />
                     <InputForm text="Số điện thoại" type="text" onChange={e => setPhone(e.target.value)} />
-                    <div className="flex self-start justify-center items-center mb-6 pl-11 text-sm">
+                    <div className="flex w-screen sm:w-full sm:self-start justify-center items-center lg:mb-6 md:mb-3 mb-6 sm:pl-11 text-sm">
                         <label className="font-bold text-gray-500  mr-4">Đối tượng</label>
                         <select className="form-select rounded-lg bg-input text-gray-500 font-bold" value={type} onChange={e => setType(e.target.value)}>
                             <option value="Student">Student</option>
@@ -200,7 +200,6 @@ function Register() {
                     </div>
                     <button onClick={onSubmit} className="bg-green-500 hover:bg-green-700 mr-6 ml-6 p-3 pr-24 pl-24 rounded text-white font-semibold text-xl">Register</button>
                 </form>
-
             </div>
         </div>
     );

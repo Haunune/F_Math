@@ -9,7 +9,7 @@ function InputForm({text, type, onChange}) {
                     id={text}
                     autoComplete="username"
                     onChange={onChange}
-                    className="block flex-1 border-2 font-bold rounded-md bg-input py-2 pl-4 min-w-96 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block flex-1 border-2 font-bold rounded-md bg-input py-2 pl-4 md:min-w-72 lg:min-w-96 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder={text}
                 />
             </div>
