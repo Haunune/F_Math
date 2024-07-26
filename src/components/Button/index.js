@@ -1,7 +1,7 @@
 function Button({nav, text, color, colorHover, colorActive}) {
     if(nav){
         return (
-            <button className={`bg-${color} hover:bg-${colorHover} focus:bg-${colorActive} xl:px-24 lg:px-11 sm:px-3 sm:mx-6 sm:p-3 p-2 mx-1 rounded text-white font-semibold text-xs sm:text-xl`}>{text}</button>
+            <button className={`bg-${color} hover:bg-${colorHover} focus:bg-${colorActive} 2xl:px-24 xl:px-14 lg:px-11 sm:px-3 sm:mx-6 sm:p-3 p-2 mx-1 rounded text-white font-semibold text-xs sm:text-xl`}>{text}</button>
         );
     }else{
         return (

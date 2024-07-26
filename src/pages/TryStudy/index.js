@@ -292,13 +292,13 @@ function TryStudy() {
             <div className={"bg-navbar min-h-screen translate-x-0 translate-y-0"}>
                 <div className="w-full h-20 bg-navbar">
                     <ToastContainer />
-                    <div className="flex">
-                        <div className="min-h-screen w-56 h-20 bg-navbar font-semibold mt-2">
+                    <div className="md:flex">
+                        <div className="md:min-h-screen sm:block flex min-w-screen lg:w-56 w-28 h-20 bg-navbar font-semibold mt-2">
                             {
                                 tryLectures.map((try_lecture, index) => (
                                     <button onClick={() => completedLectures.includes(try_lecture.id) || (index > 0 && !completedLectures.includes(tryLectures[index - 1].id)) ? null : handleTopicClick(try_lecture)}
                                         key={try_lecture.id}
-                                        className={`h-32 w-full p-3 mb-3 rounded shadow focus:bg-green-500 ${selected === try_lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${completedLectures.includes(try_lecture.id) || (index > 0 && !completedLectures.includes(tryLectures[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
+                                        className={`md:h-32 w-full p-3 mb-3 rounded shadow focus:bg-green-500 ${selected === try_lecture.id ? 'bg-green-500' : 'bg-rose-300'} ${completedLectures.includes(try_lecture.id) || (index > 0 && !completedLectures.includes(tryLectures[index - 1].id)) ? 'cursor-not-allowed opacity-50' : ''}`}
                                         disabled={completedLectures.includes(try_lecture.id) || (index > 0 && !completedLectures.includes(tryLectures[index - 1].id))}
                                     >
                                         {try_lecture.title}

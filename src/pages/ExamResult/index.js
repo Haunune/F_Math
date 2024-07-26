@@ -166,25 +166,25 @@ function ExamResult() {
             <Navbar user={user} />
             <div className="flex flex-col items-center min-h-screen p-6">
                 <div>
-                    <button onClick={() => ClickDaily()} className={`p-6 mx-10 hover:bg-green-300 rounded-xl font-semibold text-white text-lg ${isClick ? 'bg-green-500' : 'bg-sky-300'}`}>{t('result.week')}</button>
-                    <button onClick={() => ClickDaily()} className={`p-6 mx-10 hover:bg-green-300 rounded-xl font-semibold text-white text-lg ${isClick ? 'bg-sky-300' : 'bg-green-500'}`}>{t('result.month')}</button>
+                    <button onClick={() => ClickDaily()} className={`sm:p-6 p-4 sm:mb-0 mb-3 mx-10 hover:bg-green-300 rounded-xl font-semibold text-white text-lg ${isClick ? 'bg-green-500' : 'bg-sky-300'}`}>{t('result.week')}</button>
+                    <button onClick={() => ClickDaily()} className={`sm:p-6 p-4 mx-10 hover:bg-green-300 rounded-xl font-semibold text-white text-lg ${isClick ? 'bg-sky-300' : 'bg-green-500'}`}>{t('result.month')}</button>
                 </div>
                 {/* table winner*/}
                 {
-                    <div className='flex mt-6 w-full '>
+                    <div className='sm:flex mt-6 w-full '>
                         {
                             top &&
-                            <div className="flex flex-col bg-green-100 items-center justify-start text-2xl w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">
+                            <div className="flex flex-col bg-green-100 items-center justify-start text-2xl sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">
                                 {
-                                    top.avatarUrl ? <img className="w-60 h-60 mt-16 rounded-full" src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
+                                    top.avatarUrl ? <img className="xl:w-60 lg:w-48 md:w-40 w-48 xl:h-60 lg:h-48 md:h-40 h-48 mt-16 rounded-full" src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
                                 }
-                                <img className="absolute w-80 h-80 top-[330px]" src={images.win} />
+                                <img className="absolute xl:w-80 lg:w-64 md:w-52 w-64 xl:h-80 lg:h-64 md:h-52 h-64 sm:top-[330px] top-[390px]" src={images.win} />
                                 <div className="pt-20">{top.account}</div>
                                 <div className="pt-3 font-bold text-3xl">{top.fullname}</div>
                             </div>
                         }
-                        <div className="w-2/3 pr-5">
-                            <div className="font-semibold bg-sky-100 text-lg w-full min-h-max overflow-y-auto max-h-screen border shadow-xl p-3 mx-6 rounded-lg shadow-green-300">
+                        <div className="sm:w-2/3 pr-5">
+                            <div className="font-semibold bg-sky-100 sm:text-lg text-sm w-full min-h-max overflow-y-auto max-h-screen border shadow-xl p-3 sm:mx-6 mx-3 sm:mt-0 mt-6 rounded-lg shadow-green-300">
                                 {
                                     filteredScores.map((ranktable, index) => (
                                         <div className={`relative flex flex-wrap items-end pb-10 ${index !== rankArray.length - 1 ? 'border-b-2' : ''}`} key={index}>
@@ -193,7 +193,7 @@ function ExamResult() {
                                             }
                                             <div className="flex-1 p-3 ml-4">{ranktable.account}</div>
                                             <div className="flex-1 p-3">{ranktable.fullname}</div>
-                                            <div className="flex-1 p-3">{ranktable.score}</div>
+                                            <div className="flex-1 p-3 text-center">{ranktable.score}</div>
                                         </div>
                                     ))
                                 }

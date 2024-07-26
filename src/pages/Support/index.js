@@ -98,15 +98,15 @@ function Support() {
             <Header onClick={onSignOut} user={user} />
             <Navbar user={user} />
             {/* content */}
-            <div className="flex bg-navbar min-h-screen p-6">
+            <div className="flex sm:flex-row flex-col bg-navbar min-h-screen p-6">
                 <ToastContainer />
-                <div className="flex flex-col w-1/3 px-20">
-                    <button className={`h-14 px-3 mt-4 mx-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-600' : 'bg-orange-400'}`} onClick={() => setCheckChoose(true)}>Require supported</button>
-                    <button className={`h-14 px-3 bg-orange-400 m-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-400' : 'bg-orange-600'}`} onClick={() => setCheckChoose(false)}>History supported</button>
+                <div className="flex sm:flex-col sm:w-1/3 xl:px-20">
+                    <button className={`h-14 px-3 sm:mt-4 mx-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-600' : 'bg-orange-400'}`} onClick={() => setCheckChoose(true)}>Require supported</button>
+                    <button className={`h-14 px-3 bg-orange-400 sm:m-3 mt-0 mb-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-400' : 'bg-orange-600'}`} onClick={() => setCheckChoose(false)}>History supported</button>
                 </div>
                 {
                     checkChoose ?
-                        <div className="flex flex-wrap flex-col w-2/3 items-center text-amber-900">
+                        <div className="flex flex-wrap flex-col sm:w-2/3 items-center text-amber-900">
                             <p className="text-center text-amber-950 font-bold text-4xl">SUPPORT</p>
                             <div className="w-full flex justify-center">
                                 <div className="relative w-[32rem]">

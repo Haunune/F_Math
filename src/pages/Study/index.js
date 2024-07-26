@@ -114,9 +114,9 @@ function Study() {
                 <div className="text-center">
                     <p className=" font-semibold text-4xl font-medium mb-6">{t('Learning math is always fun')}</p>
                     <div className="flex justify-center">
-                        <div onClick={() => Exercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${Ex ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Learn by topic')}</div>
-                        <button onClick={() => BasicExercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${basicEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Basic exercises')}</button>
-                        <button onClick={() => AdvancedExercise()} className={`hover:bg-blue-500 mr-6 ml-6 p-3 pr-28 pl-28 rounded text-white font-semibold text-xl ${advancedEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Advanced exercises')}</button>
+                        <div onClick={() => Exercise()} className={`hover:bg-blue-500 mx-6 p-3 xl:px-24 rounded text-white font-semibold text-xl ${Ex ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Learn by topic')}</div>
+                        <button onClick={() => BasicExercise()} className={`hover:bg-blue-500 mx-6 p-3 xl:px-24 rounded text-white font-semibold text-xl ${basicEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Basic exercises')}</button>
+                        <button onClick={() => AdvancedExercise()} className={`hover:bg-blue-500 mx-6 p-3 xl:px-24 rounded text-white font-semibold text-xl ${advancedEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Advanced exercises')}</button>
                     </div>
                     {/* content */}
                     {

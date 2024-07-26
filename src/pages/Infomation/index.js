@@ -216,9 +216,9 @@ function Infomation() {
     return (
         <div className="relative">
             <Header user={location.state} onClick={onSignOut} />
-            <div className="flex min-h-screen p-20">
+            <div className="sm:flex sm:min-h-screen sm:p-20 p-5">
                 <ToastContainer />
-                <div className="flex flex-col items-center max-content w-1/3 border shadow-xl p-3 rounded-lg shadow-rose-300">
+                <div className="flex flex-col items-center max-content sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-rose-300">
                     {/* avatar */}
                     <div className="relative cursor-pointer mt-8"
                         onClick={handleImage}
@@ -226,10 +226,10 @@ function Infomation() {
                         onMouseLeave={() => setIsHover(false)}
                     >
                         {
-                            changeImage ? <img className="w-64 h-64 mt-8 rounded-full" src={URL.createObjectURL(changeImage)} alt="avatar" /> 
+                            changeImage ? <img className="sm:w-64 min-[425px]:w-52 w-48 sm:h-64 min-[425px]:h-52 h-48 mt-8 rounded-full" src={URL.createObjectURL(changeImage)} alt="avatar" /> 
                             :
                             (
-                                avatarUrl  ? <img  className="w-64 h-64 mt-8 rounded-full" src={avatarUrl} alt="avatar"  />  : <Avatar name={name} size="256" round={true} color={randomColor()} />
+                                avatarUrl  ? <img  className="sm:w-64 min-[425px]:w-52 w-48 sm:h-64 min-[425px]:h-52 h-48 mt-8 rounded-full" src={avatarUrl} alt="avatar"  />  : <Avatar name={name} size="256" round={true} color={randomColor()} />
                                 
                             ) 
                         }
@@ -242,34 +242,34 @@ function Infomation() {
                     <button className={`p-6 my-5 bg-orange-500 hover:bg-orange-300 rounded-xl font-semibold text-white text-lg`} onClick={() => setIsEdit(true)} >{t('edit profile')}</button>
                 </div>
 
-                <div className="flex flex-col items-center w-2/3 ml-5 leading-loose border shadow-xl p-10 rounded-lg shadow-orange-300 text-xl">
-                    <p className="text-5xl font-bold mb-6">{t('TITLE')}</p>
-                    <div className="flex flex-col w-full justify-start pl-20">
+                <div className="flex flex-col items-center sm:w-2/3 sm:ml-5 sm:mt-0 mt-5 leading-loose border shadow-xl sm:p-10 p-5 rounded-lg shadow-orange-300 text-xl">
+                    <p className="sm:text-5xl sm:block hidden font-bold mb-6">{t('TITLE')}</p>
+                    <div className="flex flex-col w-full justify-start sm:pl-20">
                         <p className="leading-loose">{t('name')} <span className="font-semibold">{name}</span> </p>
                         <span className="">Email: <span className="font-semibold">{email}</span> </span>
                         <span className="">{t('telephone')} <span className="font-semibold">{phone}</span> </span>
                         <p className="leading-loose">{t('account type')} <span className="font-semibold">{type}</span> </p>
                     </div>
-                    <div className="flex m-10 text-xl">
-                        <div className="text-xl border p-5 flex-grow w-full rounded-xl">
+                    <div className="flex sm:m-10 sm:text-xl text-sm">
+                        <div className="sm:text-xl text-sm border sm:p-5 p-1 flex-grow w-full rounded-xl">
                             <div className="flex justify-between items-center mb-5">
                                 <h1 className="font-semibold">Practice</h1>
                                 <h1 className="font-semibold">Total score: <span className="text-red-500">{score.totalScore ? score.totalScore : "0"}</span></h1>
                             </div>
                             <div className="flex justify-around">
-                                <div className="flex flex-col items-center border shadow-xl rounded-xl p-5 m-5 text-green-500">
-                                    <div className="text-6xl">{score.totalLectureScore ? score.totalLectureScore : "0"}</div>
-                                    <div className="mt-2 text-lg font-semibold">Lecture Exercise</div>
+                                <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-green-500">
+                                    <div className="sm:text-6xl text-4xl">{score.totalLectureScore ? score.totalLectureScore : "0"}</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">Lecture Exercise</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
-                                <div className="flex flex-col items-center border shadow-xl rounded-xl p-5 m-5 text-orange-500">
-                                    <div className="text-6xl">{score.totalBasicScore ? score.totalBasicScore : "0"}</div>
-                                    <div className="mt-2 text-lg font-semibold">Basic Exercise</div>
+                                <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-orange-500">
+                                    <div className="sm:text-6xl text-4xl">{score.totalBasicScore ? score.totalBasicScore : "0"}</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">Basic Exercise</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
-                                <div className="flex flex-col items-center border shadow-xl rounded-xl p-5 m-5 text-red-500">
-                                    <div className="text-6xl">{score.totalAdvancedScore ? score.totalAdvancedScore : "0"}</div>
-                                    <div className="mt-2 text-lg font-semibold">Advanced Exercise</div>
+                                <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-red-500">
+                                    <div className="sm:text-6xl text-4xl">{score.totalAdvancedScore ? score.totalAdvancedScore : "0"}</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">Advanced Exercise</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
                             </div>

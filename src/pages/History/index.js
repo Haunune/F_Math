@@ -44,7 +44,7 @@ function History() {
             <Header user={location.state} onClick={onSignOut} />
             <Navbar />
             <p className="font-serif font-semibold text-4xl mt-10 text-purple-500">STUDY HISTORY</p>
-            <div className="min-h-max overflow-y-auto max-h-screen flex flex-col mx-20 my-10">
+            <div className="min-h-max overflow-y-auto max-h-screen flex flex-col sm:mx-20 sm:my-10">
                 <div className="border p-5 flex-grow w-full rounded-xl shadow-lg shadow-violet-300">
                     <div className="rounded-lg overflow-hidden">
                         <div className="bg-indigo-300 text-xl">
@@ -57,7 +57,7 @@ function History() {
                         <div className="flex flex-col">
                             {
                                 lessonCompleted.map((lesson, index) => (
-                                    <div key={index} className="flex">
+                                    <div key={index} className="flex sm:text-base text-sm">
                                         <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.title}</div>
                                         <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.completeAt}</div>
                                         <div className="border border-slate-300 p-3 flex-1 text-center">{lesson.score}</div>
