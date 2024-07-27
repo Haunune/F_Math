@@ -41,7 +41,7 @@ function Header({ user, onClick }) {
                             <span className='text-lime-600 text-xl'><FaUserCircle /></span>
                             <span className='ml-2 mr-6 text-lime-600'>{`${user.name}`}</span>
                             {isClick && (
-                                <div className='absolute top-10 right-6 bg-primary w-fit rounded'>
+                                <div className='absolute top-10 right-6 bg-primary w-fit rounded z-40'>
                                     <div className='absolute top-[-15px] right-1 border-x-transparent border-t-transparent border-b-primary border-8 border-solid'></div>
                                     <NavLink className={"flex items-center p-4"} state={user} to={"/info"}><span className='mr-2'><FaUserCog /></span>Account Settings</NavLink>
                                     <NavLink className={"flex items-center p-4"} state={user} to={"/history"}><span className='mr-2'><FaHistory /></span>Homework History</NavLink>
