@@ -102,7 +102,7 @@ function Support() {
             {/* content */}
             <div className="flex sm:flex-row flex-col bg-navbar min-h-screen p-6">
                 <ToastContainer />
-                <div className="flex sm:flex-col sm:w-1/3 xl:px-20">
+                <div className="flex sm:flex-col sm:w-1/3 xl:px-20 sm:pt-10">
                     <button className={`h-14 px-3 sm:mt-4 mx-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-600' : 'bg-orange-400'}`} onClick={() => setCheckChoose(true)}>{t('Require supported')}</button>
                     <button className={`h-14 px-3 bg-orange-400 sm:m-3 mt-0 mb-3 text-xl font-semibold rounded-lg text-white ${checkChoose ? 'bg-orange-400' : 'bg-orange-600'}`} onClick={() => setCheckChoose(false)}>{t('History supported')}</button>
                 </div>
