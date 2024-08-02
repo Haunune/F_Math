@@ -112,7 +112,7 @@ function Study() {
             <Navbar user={user} />
             <div className="bg-navbar min-h-screen p-4 justify-center">
                 <div className="text-center">
-                    <p className=" font-semibold text-4xl font-medium mb-6">{t('Learning math is always fun')}</p>
+                    <p className="font-bold text-4xl mb-6 text-rose-900">{t('Learning math is always fun')}</p>
                     <div className="flex justify-center">
                         <div onClick={() => Exercise()} className={`hover:bg-blue-500 mx-6 p-3 xl:px-24 rounded text-white font-semibold text-xl ${Ex ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Learn by topic')}</div>
                         <button onClick={() => BasicExercise()} className={`hover:bg-blue-500 mx-6 p-3 xl:px-24 rounded text-white font-semibold text-xl ${basicEx ? 'bg-blue-500' : 'bg-sky-300 '}`}>{t('Basic exercises')}</button>
@@ -123,8 +123,8 @@ function Study() {
                         Ex ?
                             <div className="flex min-h-screen w-full mt-6 border rounded border-black">
                                 <div className="flex flex-col w-1/6 bg-lime-100 min-h-screen border-r-2 border-black">
-                                    <button onClick={Semester1} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">Semester 1</button>
-                                    <button onClick={Semester2} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">Semester 2</button>
+                                    <button onClick={Semester1} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">{t('Semester 1')}</button>
+                                    <button onClick={Semester2} className="p-6 text-xl text-indigo-700 font-bold hover:bg-lime-400 focus:bg-lime-400 border">{t('Semester 2')}</button>
                                 </div>
 
                                 <div className="w-5/6 bg-lime-100 min-h-screen p-3 pr-0">

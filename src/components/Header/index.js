@@ -22,11 +22,11 @@ function Header({ user, onClick }) {
                     <div className="pr-4 sm:pl-4 pl-2">
                         <div className="flex items-center">
                             <img className="sm:h-14 h-9 pr-2" src={logo} alt={"Logo"} />
-                            <h2 className="m-0 font-serif font-semibold sm:text-4xl text-sm">F-Math</h2>
+                            <h2 className="m-0 font-serif font-semibold sm:text-4xl text-sm text-orange-900">F-Math</h2>
                         </div>
                     </div>
                 </NavLink>
-                <div className="absolute flex items-center sm:text-xl text-xs end-0">
+                <div className="absolute flex items-center sm:text-xl text-xs end-0 text-sky-600">
                     {/* lựa chọn ngôn ngữ */}
                     <div className="flex sm:px-4 items-center">
                         <MdLanguage />

@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { child, get, ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
@@ -8,6 +9,7 @@ import { SignOut } from "../../firebase/auth";
 
 function History() {
     const location = useLocation();
+    const { t } = useTranslation('history');
     const navigate = useNavigate();
     const dbRef = ref(database);
     const [lessonCompleted, setLessonCompleted] = useState([]);
@@ -43,15 +45,15 @@ function History() {
         <div className="bg-navbar text-center justify-center">
             <Header user={location.state} onClick={onSignOut} />
             <Navbar />
-            <p className="font-serif font-semibold text-4xl mt-10 text-purple-500">STUDY HISTORY</p>
+            <p className="font-bold text-4xl mt-10 text-rose-900">{t('STUDY HISTORY')}</p>
             <div className="min-h-max overflow-y-auto max-h-screen flex flex-col sm:mx-20 sm:my-10">
                 <div className="border p-5 flex-grow w-full rounded-xl shadow-lg shadow-violet-300">
-                    <div className="rounded-lg overflow-hidden">
+                    <div className="rounded-lg overflow-hidden text-rose-900">
                         <div className="bg-indigo-300 text-xl">
                             <div className="flex">
-                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Lesson Name</div>
-                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Time Completed</div>
-                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">Score</div>
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">{t('Lesson Name')}</div>
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">{t('Time Completed')}</div>
+                                <div className="border border-slate-300 p-3 flex-1 font-bold text-center">{t('Score')}</div>
                             </div>
                         </div>
                         <div className="flex flex-col">

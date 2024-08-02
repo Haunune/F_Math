@@ -8,20 +8,27 @@ import INFO_EN from '../locales/en/information.json';
 import INFO_VI from '../locales/vi/information.json';
 import LOGIN_EN from '../locales/en/login.json';
 import LOGIN_VI from '../locales/vi/login.json';
-
+import SUPPORT_EN from '../locales/en/support.json';
+import SUPPORT_VI from '../locales/vi/support.json';
+import HISTORY_EN from '../locales/en/history.json';
+import HISTORY_VI from '../locales/vi/history.json';
 
 const resources = {
   en: {
     home: HOME_EN,
     study: STUDY_EN,
     info: INFO_EN,
-    login: LOGIN_EN
+    login: LOGIN_EN,
+    support: SUPPORT_EN,
+    history: HISTORY_EN
   },
   vi: {
     home: HOME_VI,
     study: STUDY_VI,
     info: INFO_VI,
-    login: LOGIN_VI
+    login: LOGIN_VI,
+    support: SUPPORT_VI,
+    history: HISTORY_VI
   }
 };
 
@@ -34,7 +41,7 @@ i18n
     resources,
     lng: "en",
     fallbackLng: "en",
-    ns: ['home','study','info', 'login'],
+    ns: ['home','study','info', 'login', 'support','history'],
     defaultNS,
     interpolation: {
       escapeValue: false

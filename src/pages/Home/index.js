@@ -201,11 +201,11 @@ function Home() {
                         <Carousel />
                     </div>
                 </div>
-                <div className="flex flex-col sm:flex-row bg-navbar max-w-screen min-h-screen">
+                <div className="flex flex-col sm:flex-row bg-navbar max-w-screen min-h-screen text-orange-900">
                     {
                         informationsArray.map((item, index) => (
                             <div key={index} className="flex flex-col sm:max-w-prose sm:max-h-full sm:p-8 p-2">
-                                <img className="sm:h-1/3" src={item.imageUrl} alt="Advertise website" />
+                                <img className="xl:h-1/3" src={item.imageUrl} alt="Advertise website" />
                                 <span className="font-bold sm:text-2xl text-xl sm:mt-8 mt-4">{item.title}</span>
                                 <div className="text-ellipsis text-justify overflow-hidden max-w-md leading-relaxed">{item.content}</div>
                             </div>

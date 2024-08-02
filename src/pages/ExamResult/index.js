@@ -171,7 +171,7 @@ function ExamResult() {
                 </div>
                 {/* table winner*/}
                 {
-                    <div className='sm:flex mt-6 w-full '>
+                    <div className='sm:flex mt-6 w-full text-rose-900'>
                         {
                             top &&
                             <div className="flex flex-col bg-green-100 items-center justify-start text-2xl sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">

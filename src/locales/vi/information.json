@@ -5,5 +5,10 @@
     "account type": "Loại tài khoản: ",
     "telephone" : "Số điện thoại: ",
     "add student":"Thêm học sinh",
-    "edit profile":"Chỉnh sửa thông tin"
+    "edit profile":"Chỉnh sửa thông tin",
+    "Practice":"Luyện tập",
+    "Total score:":"Tổng điểm:",
+    "Lecture Exercise":"Bài tập bài học",
+    "Basic Exercise":"Bài tập cơ bản",
+    "Advanced Exercise":"Bài tập nâng cao"
 }

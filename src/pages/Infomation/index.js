@@ -218,7 +218,7 @@ function Infomation() {
             <Header user={location.state} onClick={onSignOut} />
             <div className="sm:flex sm:min-h-screen sm:p-20 p-5">
                 <ToastContainer />
-                <div className="flex flex-col items-center max-content sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-rose-300">
+                <div className="flex flex-col items-center max-content sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-rose-300 text-rose-900">
                     {/* avatar */}
                     <div className="relative cursor-pointer mt-8"
                         onClick={handleImage}
@@ -242,7 +242,7 @@ function Infomation() {
                     <button className={`p-6 my-5 bg-orange-500 hover:bg-orange-300 rounded-xl font-semibold text-white text-lg`} onClick={() => setIsEdit(true)} >{t('edit profile')}</button>
                 </div>
 
-                <div className="flex flex-col items-center sm:w-2/3 sm:ml-5 sm:mt-0 mt-5 leading-loose border shadow-xl sm:p-10 p-5 rounded-lg shadow-orange-300 text-xl">
+                <div className="flex flex-col items-center sm:w-2/3 sm:ml-5 sm:mt-0 mt-5 leading-loose border shadow-xl sm:p-10 p-5 rounded-lg shadow-orange-300 text-xl text-rose-900">
                     <p className="sm:text-5xl sm:block hidden font-bold mb-6">{t('TITLE')}</p>
                     <div className="flex flex-col w-full justify-start sm:pl-20">
                         <p className="leading-loose">{t('name')} <span className="font-semibold">{name}</span> </p>
@@ -253,23 +253,23 @@ function Infomation() {
                     <div className="flex sm:m-10 sm:text-xl text-sm">
                         <div className="sm:text-xl text-sm border sm:p-5 p-1 flex-grow w-full rounded-xl">
                             <div className="flex justify-between items-center mb-5">
-                                <h1 className="font-semibold">Practice</h1>
-                                <h1 className="font-semibold">Total score: <span className="text-red-500">{score.totalScore ? score.totalScore : "0"}</span></h1>
+                                <h1 className="font-semibold">{t('Practice')}</h1>
+                                <h1 className="font-semibold">{t('Total score:')} <span className="text-red-500">{score.totalScore ? score.totalScore : "0"}</span></h1>
                             </div>
                             <div className="flex justify-around">
                                 <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-green-500">
                                     <div className="sm:text-6xl text-4xl">{score.totalLectureScore ? score.totalLectureScore : "0"}</div>
-                                    <div className="mt-2 sm:text-lg text-base font-semibold">Lecture Exercise</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">{t('Lecture Exercise')}</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
                                 <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-orange-500">
                                     <div className="sm:text-6xl text-4xl">{score.totalBasicScore ? score.totalBasicScore : "0"}</div>
-                                    <div className="mt-2 sm:text-lg text-base font-semibold">Basic Exercise</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">{t('Basic Exercise')}</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
                                 <div className="flex flex-col items-center border shadow-xl rounded-xl sm:p-5 p-2 sm:m-5 m-3 text-red-500">
                                     <div className="sm:text-6xl text-4xl">{score.totalAdvancedScore ? score.totalAdvancedScore : "0"}</div>
-                                    <div className="mt-2 sm:text-lg text-base font-semibold">Advanced Exercise</div>
+                                    <div className="mt-2 sm:text-lg text-base font-semibold">{t('Advanced Exercise')}</div>
                                     <div className="mt-2"> <FaRegHeart /></div>
                                 </div>
                             </div>
@@ -280,10 +280,10 @@ function Infomation() {
             {
                 isEdit ?
                     <>
-                        <div className="flex absolute justify-center items-center top-0 w-full h-full bg-gray-200 bg-opacity-50 z-10">
+                        <div className="flex absolute justify-center items-center top-0 w-full h-full bg-gray-200 bg-opacity-50 z-10 text-rose-900">
                             <div className="bg-white z-20 border rounded-lg w-1/3 p-10">
                                 <div onClick={() => setIsEdit(false)} className="flex justify-end text-3xl" ><ImCancelCircle /></div>
-                                <p className="text-2xl font-bold text-black pt-5 text-center">Change Profile</p>
+                                <p className="text-2xl font-bold text-rose-900 pt-5 text-center">Change Profile</p>
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-center pt-5 w-full">
                                         <span className="ml-5">Account Name</span>
