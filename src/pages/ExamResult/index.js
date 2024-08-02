@@ -180,7 +180,7 @@ function ExamResult() {
                                 }
                                 <img className="absolute xl:w-80 lg:w-64 md:w-52 w-64 xl:h-80 lg:h-64 md:h-52 h-64 sm:top-[330px] top-[390px]" src={images.win} />
                                 <div className="pt-20">{top.account}</div>
-                                <div className="pt-3 font-bold text-3xl">{top.fullname}</div>
+                                <div className="pt-3 lg:pb-0 pb-3 font-bold text-3xl">{top.fullname}</div>
                             </div>
                         }
                         <div className="lg:w-2/3 pr-5">
