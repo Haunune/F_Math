@@ -171,10 +171,10 @@ function ExamResult() {
                 </div>
                 {/* table winner*/}
                 {
-                    <div className='sm:flex mt-6 w-full text-rose-900'>
+                    <div className='lg:flex mt-6 w-full text-rose-900'>
                         {
                             top &&
-                            <div className="flex flex-col bg-green-100 items-center justify-start text-2xl sm:w-1/3 border shadow-xl p-3 rounded-lg shadow-blue-300">
+                            <div className="flex flex-col bg-green-100 items-center justify-start text-2xl lg:w-1/3 lg:m-0 mb-8 border shadow-xl p-3 rounded-lg shadow-blue-300">
                                 {
                                     top.avatarUrl ? <img className="xl:w-60 lg:w-48 md:w-40 w-48 xl:h-60 lg:h-48 md:h-40 h-48 mt-16 rounded-full" src={top.avatarUrl}  alt='avatar' /> : <Avatar className="my-8" name={top.fullname} size="240" round={true} color={topUserColor} />
                                 }
@@ -183,8 +183,8 @@ function ExamResult() {
                                 <div className="pt-3 font-bold text-3xl">{top.fullname}</div>
                             </div>
                         }
-                        <div className="sm:w-2/3 pr-5">
-                            <div className="font-semibold bg-sky-100 sm:text-lg text-sm w-full min-h-max overflow-y-auto max-h-screen border shadow-xl p-3 sm:mx-6 mx-3 sm:mt-0 mt-6 rounded-lg shadow-green-300">
+                        <div className="lg:w-2/3 pr-5">
+                            <div className="font-semibold bg-sky-100 sm:text-lg text-sm w-full min-h-max overflow-y-auto max-h-screen border shadow-xl p-3 lg:mx-6 mx-3 sm:mt-0 mt-6 rounded-lg shadow-green-300">
                                 {
                                     filteredScores.map((ranktable, index) => (
                                         <div className={`relative flex flex-wrap items-end pb-10 ${index !== rankArray.length - 1 ? 'border-b-2' : ''}`} key={index}>
