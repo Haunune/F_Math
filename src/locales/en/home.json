@@ -12,5 +12,10 @@
     "result": {
         "week": "Weekly Practice Results",
         "month": "Monthly Practice Results"
+    },
+    "carousel":{
+        "Honor":"Honor the student with the highest score",
+        "Name":"Name: ",
+        "Score":"Score: "
     }
 }

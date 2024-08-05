@@ -9,7 +9,7 @@ function ProtectRoute({ authUser }) {
       if (!authUser) {
         navigate('/login', { replace: true });
       }
-    }, 1500);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [navigate]);
 

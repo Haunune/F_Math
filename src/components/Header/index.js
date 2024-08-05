@@ -7,7 +7,7 @@ import { FaHistory, FaUserCircle, FaUserCog } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from 'react';
 
-function Header({ user, onClick }) {
+function Header({ user, onClick, onLanguageChange }) {
     const [isClick, setIsClick] = useState(false)
     const { i18n, t } = useTranslation();
 

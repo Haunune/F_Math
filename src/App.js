@@ -32,7 +32,7 @@ function App() {
   }, []);
   return (
     //  basename="/F_Math"
-    <Router basename="/F_Math">
+    <Router >
       <div className="App">
         <Routes>
           {

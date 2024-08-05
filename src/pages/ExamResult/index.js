@@ -123,7 +123,8 @@ function ExamResult() {
                 rankList.push({ account: user.account, fullname: user.name, score: user.totalScore.totalScore, avatarUrl: user.avatarUrl })
             }
         })
-        setRankArray(rankList.sort((a, b) => b.score - a.score));
+
+        setRankArray(rankList.filter(x => x.score >= 100).sort((a, b) => b.score - a.score));
     }, [userArray]);
 
     const [top] = rankArray;

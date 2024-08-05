@@ -10,8 +10,10 @@ import { SignOut } from "../../firebase/auth";
 import { child, get, ref, set } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Home() {
+    const {t} = useTranslation();
     const [authUser, setAuthUser] = useState(null);
     const [informationsArray, setInformationsArray] = useState([]);
     const dbRef = ref(database);
@@ -181,19 +183,19 @@ function Home() {
 
     return (
         <div>
-            <Header onClick={onSignOut} user={authUser} />
+            <Header onClick={onSignOut} user={authUser}/>
             <Navbar user={authUser} />
             <div className="min-h-screen bg-navbar">
                 <div className="flex flex-col sm:flex-row min-h-80 ">
                     {top &&
                         <div className="relative flex sm:w-2/4 p-4 justify-center items-center">
                             <div className="sm:w-2/5 w-1/3 mx-5 mt-5">
-                                <img className=" border sm:shadow-xl shadow-lg rounded-full bg-red-600 shadow-orange-300" src={images.usertop} />
+                                <img alt="avt" className=" border sm:shadow-xl shadow-lg rounded-full bg-red-600 shadow-orange-300" src={images.usertop} />
                             </div>
-                            <p className="absolute 2xl:text-3xl xl:text-2xl lg:text-xl md:text-base text-sm w-full sm:top-9 top-2 left-9 font-serif font-bold text-sky-600">Honor the student with the highest score</p>
+                            <p className="absolute 2xl:text-3xl xl:text-2xl lg:text-xl md:text-base text-sm w-full sm:top-9 top-2 left-9 font-bold text-sky-600">{t('carousel.Honor')}</p>
                             <div className="sm:w-3/5 w-2/3 lg:pl-10 leading-loose">
-                                <div className="pt-3 font-semibold 2xl:text-3xl xl:text-2xl lg:text-xl md:text-base text-lg font-mono text-red-400">Name: {top.fullname}</div>
-                                <div className="pt-5 font-semibold 2xl:text-2xl xl:text-xl lg:text-lg md:text-sm text-base font-mono text-red-400">Score: {top.score}</div>
+                                <div className="pt-3 font-semibold 2xl:text-3xl xl:text-2xl lg:text-xl md:text-base text-lg font-mono text-red-400">{t('carousel.Name')}{top.fullname}</div>
+                                <div className="pt-5 font-semibold 2xl:text-2xl xl:text-xl lg:text-lg md:text-sm text-base font-mono text-red-400">{t('carousel.Score')}{top.score}</div>
                             </div>
                         </div>
                     }

@@ -12,5 +12,10 @@
     "result": {
         "week": "Kết quả luyện tập hàng tuần",
         "month": "Kết quả luyện tập hàng tháng"
+    },
+    "carousel":{
+        "Honor":"Vinh danh học sinh có điểm cao nhất",
+        "Name":"Tên: ",
+        "Score":"Điểm số: "
     }
 }
