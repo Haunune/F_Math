@@ -11,6 +11,7 @@ import { child, get, ref, set } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+//import { translateText } from "../../translate";
 
 function Home() {
     const {t} = useTranslation();
@@ -37,6 +38,17 @@ function Home() {
             console.error(error);
         });
     }, [dbRef])
+    //DỊCH THUẬT FIREBASE
+    // const translateData = async (data, lang) => {
+    //     const translatedData = await Promise.all(data.map(async item => {
+    //         const translatedContent = await translateText(item.content, lang);
+    //         return {
+    //             ...item,
+    //             content: translatedContent
+    //         };
+    //     }));
+    //     return translatedData;
+    // };
 
     // tạo hook để kiểm tra có user đang đăng nhập hay không
     useEffect(() => {
