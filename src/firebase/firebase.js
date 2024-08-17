@@ -10,9 +10,9 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCvCv5R9xpwiSz77TJga3xEXAkw9BqotXw",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "funny-math-37552.firebaseapp.com",
-  databaseURL: "https://funny-math-37552-default-rtdb.firebaseio.com",
+  databaseURL: process.env.REACT_APP_API_URL,
   projectId: "funny-math-37552",
   storageBucket: "funny-math-37552.appspot.com",
   messagingSenderId: "370202238756",
