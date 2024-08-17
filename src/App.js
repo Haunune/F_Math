@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./routes/index.js";
 import "./i18n/i18n.js";
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ function App() {
   }, []);
   return (
     //  basename="/F_Math"
-    <Router basename="/F_Math">
+    <Router>
       <div className="App">
         <Routes>
           {

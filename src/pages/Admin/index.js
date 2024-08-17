@@ -243,6 +243,8 @@ function Admin() {
             alert("Error Updating Data:", error.message);
         });
     }
+    
+    console.log(helps)
 
     return (
         <>

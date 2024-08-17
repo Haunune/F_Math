@@ -5,7 +5,7 @@ import { CreateUserWithEmailAndPassword } from "../../firebase/auth";
 import { useEffect, useState } from "react";
 import { database } from "../../firebase/firebase.js";
 import { child, get, ref, set } from "firebase/database";
-import { getAuth } from "firebase/auth";
+import CryptoJS from 'crypto-js';
 import { Slide, toast, ToastContainer } from "react-toastify";
 
 function Register() {
@@ -86,10 +86,11 @@ function Register() {
                     } else {
                         const userCreate = await CreateUserWithEmailAndPassword(email, password)
                         const user = userCreate.user;
+                        const passCrypto = CryptoJS.AES.encrypt(password, '24092002').toString();
                         await set(child(dbRef, `accounts/` + user.uid), {
                             id: "User" + user.uid,
                             email,
-                            password,
+                            password: passCrypto,
                             name,
                             account,
                             phone,
